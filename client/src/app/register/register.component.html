@@ -1,0 +1,80 @@
+<div class="container">
+  <div *ngIf="!success && validMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <p>{{validMessage}}</p>
+  </div>
+
+  <div class="card">
+    <!-- Default form register -->
+    <form class="text-center border border-light p-5" [formGroup]="registerForm"
+      (ngSubmit)="onSubmit(registerForm.value)">
+
+
+      <p class="h4 mb-4">Sign up</p>
+      <!-- Username -->
+      <div class="form-group">
+        <input type="username" required formControlName="username" class="form-control mb-4" placeholder="Username">
+        <div *ngIf="submitted && f.username.invalid " class="alert alert-danger">
+          <div *ngIf="f.username.errors.required">
+            Username is required.
+          </div>
+        </div>
+      </div>
+      <!-- E-mail -->
+      <div class="form-group">
+        <input type="text" required class="form-control mb-4" formControlName="email" placeholder="E-mail">
+        <div *ngIf="submitted && f.email.invalid" class="alert alert-danger">
+          <div *ngIf="f.email.errors.required">
+            Email is required
+          </div>
+          <div *ngIf="f.email.errors.email">
+            Email must be a valid email address
+          </div>
+        </div>
+      </div>
+      <!-- Password -->
+      <div class="form-group">
+        <div class="row">
+          <div class="col-11 noPadding">
+            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" required
+              class="form-control " formControlName="password" placeholder="Password">
+          </div>
+          <div class="col-1 eyeButton">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+          At least 6 characters
+        </small>
+        <div *ngIf="submitted && f.password.invalid" class="alert alert-danger">
+          <div *ngIf="f.password.errors.required">
+            Password is required
+          </div>
+          <div *ngIf="f.password.errors.minlength">
+            Password is too short
+          </div>
+        </div>
+      </div>
+      <!-- Sign up button -->
+      <button class="btn btn-info my-4 btn-block" type="submit">Sign in</button>
+
+      <!-- Social register -->
+      <p>or sign up with:</p>
+
+      <a href="#" class="mx-2" role="button"><i class="fab fa-facebook-f light-blue-text"></i></a>
+      <a href="#" class="mx-2" role="button"><i class="fab fa-twitter light-blue-text"></i></a>
+      <a href="#" class="mx-2" role="button"><i class="fab fa-linkedin-in light-blue-text"></i></a>
+      <a href="#" class="mx-2" role="button"><i class="fab fa-github light-blue-text"></i></a>
+
+      <hr>
+
+    </form>
+    <!-- Default form register -->
+  </div>
+</div>
