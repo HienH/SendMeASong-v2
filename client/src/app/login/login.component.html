@@ -1,15 +1,27 @@
 <div class="container">
-  <!-- Default form login -->
+  <!--fail login message -->
+  <div *ngIf="!success && validMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <p>{{validMessage}}</p>
+  </div>
+  <!--Form login -->
   <form class="text-center border border-light p-5" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
 
     <p class="h4 mb-4">Sign in</p>
 
     <!-- Email -->
-    <input formControlName="email" required type="email" id="defaultLoginFormEmail" class="form-control mb-4"
-      placeholder="E-mail">
-    <div *ngIf="submitted && f.email.invalid" class="alert alert-danger">
-      <div *ngIf="f.email.errors.required">
-        Please emter an email
+    <div class="form-group">
+      <input formControlName="email" type="text" id="defaultLoginFormEmail" class="form-control mb-4"
+        placeholder="E-mail">
+      <div *ngIf="submitted && f.email.invalid" class="alert alert-danger">
+        <div *ngIf="f.email.errors.required">
+          Please enter an Email
+        </div>
+        <div *ngIf="f.email.errors.email">
+          Please enter a valid Email address
+        </div>
       </div>
     </div>
 

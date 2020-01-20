@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../shared/user.service';
 import { Router } from '@angular/router';
@@ -9,9 +9,12 @@ import { Router } from '@angular/router';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+    @ViewChild('alert', { static: false }) alert: ElementRef;
+
     loginForm: FormGroup
     submitted: boolean;
     success: boolean;
+    validMessage: string;
 
     constructor(private userService: UserService, private router: Router) { }
 
@@ -30,19 +33,38 @@ export class LoginComponent implements OnInit {
     // Convenient getter to get access to form control
     get f() { return this.loginForm.controls; }
 
+    // Close notification message
+    closeAlert() {
+        this.alert.nativeElement.classList.remove('show');
+    }
     onSubmit() {
         this.submitted = true;
         this.success = false;
         if (this.loginForm.valid) {
             this.userService.loginUser(this.loginForm.value).subscribe(
                 (res) => {
-                    if (res["loginSuccess"])
-                        this.router.navigate(['/home'])
+                    if (res["loginSuccess"]) {
+                        localStorage.setItem("token", res["token"]);
+                        this.router.navigate(['/home']);
+                        this.success = true;
 
+
+                    } else {
+                        this.success = false;
+                        this.validMessage = res["message"]
+                        this.resetForm();
+
+                    }
                 },
                 (err) => {
                     console.log(err)
                 })
         }
+    }
+
+    resetForm() {
+        this.loginForm.reset();
+        this.submitted = false;
+        this.success = false;
     }
 }

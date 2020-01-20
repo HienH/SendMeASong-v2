@@ -18,4 +18,8 @@ export class UserService {
     loginUser(user: User) {
         return this.http.post(environment.apiBaseUrl + 'user/login', user)
     }
+
+    isLoggedIn() {
+        return !!localStorage.getItem('token')
+    }
 }

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-    @ViewChild('alert', { static: true }) alert: ElementRef;
+    @ViewChild('alert', { static: false }) alert: ElementRef;
 
     registerForm: FormGroup;
     submitted: boolean;
@@ -56,7 +56,6 @@ export class RegisterComponent implements OnInit {
             this.userService.registerUser(this.registerForm.value).subscribe(
                 (res) => {
                     this.success = true;
-                    console.log(this.success);
                     this.validMessage = "Successfull Registration, redirecting to login page"
                     // On success set submitted to false and clear form
                     this.resetForm();
