@@ -8,10 +8,12 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { MatButtonModule, MatSnackBarModule } from '@angular/material'
 import { AuthGuardService } from './guards/auth-guard.service';
 import { UserService } from './shared/user.service';
+import { TokenInterceptorService } from './shared/token-interceptor.service';
+
 
 @NgModule({
     declarations: [
@@ -29,7 +31,11 @@ import { UserService } from './shared/user.service';
 
 
     ],
-    providers: [AuthGuardService],
+    providers: [AuthGuardService, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
