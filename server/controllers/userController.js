@@ -1,9 +1,22 @@
 const { User } = require('./../models/user.model');
+var ObjectID = require('mongodb').ObjectID;
+
+// module.exports.getUser = (req, res) => {
+//     const { userId } = req.params;
+//     User.findById(userId).populate('songs')
+//         .then(users => res.status(200).json(users))
+//         .catch(err => res.status(400).json('Error:' + err));
+
+// };
 
 module.exports.getUser = (req, res) => {
-    const { userId } = req.params;
-    User.findById(userId).populate('songs')
-        .then(users => res.status(200).json(users))
+    const user = new ObjectID(res.locals.userId);
+    console.log(user);
+    User.findById(user).populate('songs')
+        .then(user => res.status(200).json({
+            hello: 'hello',
+            user: user
+        }))
         .catch(err => res.status(400).json('Error:' + err));
 
 };
@@ -61,7 +74,8 @@ module.exports.login = (req, res) => {
                 res.cookie('auth', user.token).status(200).json({
                     loginSuccess: true,
                     message: 'welcome',
-                    token: user.token
+                    token: user.token,
+                    user: user
                 })
             })
         })

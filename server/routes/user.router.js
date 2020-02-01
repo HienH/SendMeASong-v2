@@ -5,6 +5,7 @@ const router = express.Router();
 const userController = require('../controllers/userController')
 // Middleware 
 const auth = require('../middleware/auth')
+const verifyToken = require('../middleware/verifyToken');
 
 
 // add user 
@@ -18,8 +19,7 @@ router.post('/login', userController.login);
 router.get('/logout', auth.authentication, userController.logout);
 
 //get all user songs
-router.get('/:userId', auth.authentication, userController.getUser);
-
+router.get('/user', verifyToken.verifyToken, userController.getUser);
 
 // //get all user songs
 // router.get('/:userId', (async (req, res) => {

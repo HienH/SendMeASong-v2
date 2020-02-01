@@ -23,6 +23,13 @@ export class UserService {
         return !!localStorage.getItem('token');
     }
     getToken() {
-      return localStorage.getItem('token');
+        const token = localStorage.getItem('token');
+        return token ? 'Bearer ' + token : null;
+    }
+
+    getUser() {
+        console.log(environment.apiBaseUrl + 'user/user');
+
+        return this.http.get(environment.apiBaseUrl + 'user/user')
     }
 }
