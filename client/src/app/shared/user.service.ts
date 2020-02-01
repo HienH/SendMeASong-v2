@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from './user.model'
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -9,7 +9,9 @@ import { environment } from '../../environments/environment';
 export class UserService {
     newUser: User
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+
+    }
 
     registerUser(user: User) {
         return this.http.post(environment.apiBaseUrl + 'user/register', user);
@@ -24,12 +26,10 @@ export class UserService {
     }
     getToken() {
         const token = localStorage.getItem('token');
-        return token ? 'Bearer ' + token : null;
+        return token ? token : null;
     }
 
     getUser() {
-        console.log(environment.apiBaseUrl + 'user/user');
-
         return this.http.get(environment.apiBaseUrl + 'user/user')
     }
 }
