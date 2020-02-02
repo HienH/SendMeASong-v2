@@ -52,7 +52,11 @@ export class HomeComponent implements OnInit {
         this.userService.deleteSong(song).subscribe(
             (res) => {
                 this.delSuccess = true;
-                this.delMessage = res['message'];
+                this.delMessage = res['message']
+                setTimeout(() => {
+                    this.alert.nativeElement.classList.remove('show');
+                    this.delMessage = '';
+                }, 2000)
                 this.getUserSongs()
             },
             (err) => {

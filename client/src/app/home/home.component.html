@@ -1,10 +1,3 @@
-<div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
-  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <p>{{delMessage}}</p>
-</div>
-
 <h1>Hello {{user}}</h1>
 
 <div class="container">
@@ -52,7 +45,12 @@
 
 
   </div>
-  <div class="col">
-    ..
-  </div>
+
+
+</div>
+<div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
+  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <p>{{delMessage}}</p>
 </div>
