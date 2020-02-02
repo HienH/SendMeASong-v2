@@ -1,20 +1,11 @@
 const { User } = require('./../models/user.model');
 var ObjectID = require('mongodb').ObjectID;
 
-// module.exports.getUser = (req, res) => {
-//     const { userId } = req.params;
-//     User.findById(userId).populate('songs')
-//         .then(users => res.status(200).json(users))
-//         .catch(err => res.status(400).json('Error:' + err));
-
-// };
 
 module.exports.getUser = (req, res) => {
     const user = new ObjectID(res.locals.userId);
-    console.log(user);
     User.findById(user).populate('songs')
         .then(user => res.status(200).json({
-            hello: 'hello',
             user: user
         }))
         .catch(err => res.status(400).json('Error:' + err));
@@ -81,6 +72,7 @@ module.exports.login = (req, res) => {
         })
     })
 }
+
 module.exports.logout = (req, res) => {
     User.findByIdAndUpdate(
         { _id: req.user._id },
@@ -96,3 +88,15 @@ module.exports.logout = (req, res) => {
         }
     )
 };
+
+module.exports.isLoggedin = (req, res) => {
+    console.log('inHere')
+    User.findByToken(req.body.token, (err, user) => {
+        if (!user) return res.status(400).json({
+            token: 'invalid'
+        }); else {
+            return res.status(200)
+        }
+
+    })
+}

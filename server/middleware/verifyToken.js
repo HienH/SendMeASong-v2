@@ -13,9 +13,6 @@ module.exports.verifyToken = (req, res, next) => {
         return res.status(401).send('Unauthorized payload request');
     }
     res.locals.userId = payload._id
-    console.log(res.locals.userId)
-    console.log('inVerifyJS')
-
     next();
 }
 
