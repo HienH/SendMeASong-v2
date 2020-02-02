@@ -11,7 +11,6 @@ export class UserService {
     constructor(private http: HttpClient) {
 
     }
-
     registerUser(user: User) {
         return this.http.post(environment.apiBaseUrl + 'user/register', user);
     }
@@ -34,6 +33,9 @@ export class UserService {
 
     getSongs() {
         return this.http.get(environment.apiBaseUrl + 'song')
+    }
+    deleteSong(song: Song) {
+        return this.http.post(environment.apiBaseUrl + 'song/delete', song);
     }
     addSong(newSong: Song) {
         return this.http.post(environment.apiBaseUrl + 'song/add', newSong);

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../shared/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -8,29 +9,34 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+    @ViewChild('alert', { static: false }) alert: ElementRef;
 
     songs = {};
     songForm: FormGroup;
     submitted: boolean;
     success: boolean;
     user: string;
+    delSuccess: boolean;
+    delMessage: string;
 
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService, private router: Router) { }
 
     ngOnInit() {
         this.submitted = false;
         this.success = false;
         this.userService.getUser().subscribe(
             (res) => {
-                console.log(this.user = res['user']['username']
-                )
                 this.songs = res['user']['songs']
                 this.user = res['user']['username']
             },
             (err) => {
-                console.log(err);
-            }
-        )
+                if (err.status === 500 && err.name == 'HttpErrorResponse') {
+                    this.router.navigate(['/login']);
+                } else {
+                    console.log(err);
+
+                }
+            })
         this.createForm();
     }
 
@@ -39,6 +45,37 @@ export class HomeComponent implements OnInit {
             song: new FormControl('', Validators.required),
             artist: new FormControl('', Validators.required)
         })
+    }
+
+    deleteSong(song) {
+        this.delSuccess = false;
+        this.userService.deleteSong(song).subscribe(
+            (res) => {
+                this.delSuccess = true;
+                this.delMessage = res['message'];
+                this.getUserSongs()
+            },
+            (err) => {
+                console.log(err);
+            }
+        )
+    }
+
+    getUserSongs() {
+        this.userService.getSongs().subscribe(
+            (res) => {
+                this.songs = res
+            },
+            (err) => {
+                console.log(err);
+            }
+        )
+    }
+
+
+    // Close notification message
+    closeAlert() {
+        this.alert.nativeElement.classList.remove('show');
     }
 
     // Convience getter to get access to form control
@@ -51,15 +88,8 @@ export class HomeComponent implements OnInit {
             // Send off to API
             this.userService.addSong(this.songForm.value).subscribe(
                 (res) => {
-                    console.log(res)
-                    this.userService.getSongs().subscribe(
-                        (res) => {
-                            this.songs = res
-                        },
-                        (err) => {
-                            console.log(err);
-                        }
-                    )
+                    this.getUserSongs();
+                    this.restartForm();
                 },
                 (err) => {
                     this.success = false;
@@ -67,6 +97,11 @@ export class HomeComponent implements OnInit {
                 }
             )
         }
+    }
+    restartForm() {
+        this.songForm.reset();
+        this.submitted = false;
+        this.success = false;
     }
 
 

@@ -1,3 +1,10 @@
+<div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
+  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <p>{{delMessage}}</p>
+</div>
+
 <h1>Hello {{user}}</h1>
 
 <div class="container">
@@ -34,7 +41,7 @@
     <div *ngIf="songs.length> 0">
       <li *ngFor="let obj of songs">
         {{obj.song}} - {{obj.artist}}
-        <button class="deleteButton" mat-raised-button>x</button>
+        <button (click)="deleteSong(obj)" class="deleteButton" mat-raised-button>x</button>
 
 
       </li>

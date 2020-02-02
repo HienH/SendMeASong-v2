@@ -90,7 +90,6 @@ module.exports.logout = (req, res) => {
 };
 
 module.exports.isLoggedin = (req, res) => {
-    console.log('inHere')
     User.findByToken(req.body.token, (err, user) => {
         if (!user) return res.status(400).json({
             token: 'invalid'
