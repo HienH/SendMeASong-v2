@@ -1,6 +1,15 @@
-<h1>Hello {{user}}</h1>
-
 <div class="container">
+  <div class="row">
+    <div class="col-10">
+      <h1>Hello {{user}}</h1>
+    </div>
+    <div class="col-2">
+      <button (click)="logout()" class="btn btn-warning my-2 btn-block">Logout</button>
+
+    </div>
+
+  </div>
+
   <h3> Whats your current favourite song? </h3>
   <form [formGroup]="songForm" (ngSubmit)="onSubmit(songForm.value)">
     <!---Song-->
@@ -26,31 +35,32 @@
     <button class="btn btn-info my-4 btn-block" type="submit">Add Song</button>
 
   </form>
-</div>
 
-<div class="row">
-  <div class="col">
-    <h5> Favourite Songs list</h5>
-    <div *ngIf="songs.length> 0">
-      <li *ngFor="let obj of songs">
-        {{obj.song}} - {{obj.artist}}
-        <button (click)="deleteSong(obj)" class="deleteButton" mat-raised-button>x</button>
+  <div class="row">
+    <div class="col">
+      <h5> Favourite Songs list</h5>
+      <div *ngIf="songs.length> 0">
+        <li *ngFor="let obj of songs">
+          {{obj.song}} - {{obj.artist}}
+          <button (click)="deleteSong(obj)" class="deleteButton" mat-raised-button>x</button>
 
 
-      </li>
-    </div>
-    <div *ngIf="songs.length == 0">
-      <p>You can no favourite saved song</p>
+        </li>
+      </div>
+      <div *ngIf="songs.length == 0">
+        <p>You can no favourite saved song</p>
+      </div>
+
+
     </div>
 
 
   </div>
+  <div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <p>{{delMessage}}</p>
+  </div>
 
-
-</div>
-<div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
-  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <p>{{delMessage}}</p>
 </div>

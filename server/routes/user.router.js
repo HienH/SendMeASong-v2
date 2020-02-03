@@ -16,7 +16,7 @@ router.post('/login', userController.login);
 
 
 // user logout
-router.get('/logout', auth.authentication, userController.logout);
+router.get('/logout', userController.logout);
 
 //get all user songs
 router.get('/user', verifyToken.verifyToken, userController.getUser);

@@ -18,6 +18,10 @@ export class UserService {
     loginUser(user: User) {
         return this.http.post(environment.apiBaseUrl + 'user/login', user);
     }
+    logoutUser() {
+        localStorage.setItem('token', '');
+        return this.http.get(environment.apiBaseUrl + 'user/logout')
+    }
 
     isLoggedIn() {
         return !!localStorage.getItem('token');

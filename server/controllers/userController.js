@@ -74,8 +74,9 @@ module.exports.login = (req, res) => {
 }
 
 module.exports.logout = (req, res) => {
+    const user = new ObjectID(res.locals.userId);
     User.findByIdAndUpdate(
-        { _id: req.user._id },
+        { _id: user },
         { token: '' },
         (err, doc) => {
             if (err) return res.json({
@@ -83,7 +84,7 @@ module.exports.logout = (req, res) => {
                 error: err
             });
             return res.status(200).send({
-                sucess: true
+                success: true
             })
         }
     )

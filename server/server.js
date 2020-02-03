@@ -10,9 +10,9 @@ require('dotenv').config();
 mongoose.Promise = global.Promise;
 
 //Connect to DB
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useCreateIndex: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false })
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
 
 
 //bodyParser
@@ -30,5 +30,5 @@ app.use('/song', songRouter);
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => {
-  console.log(`Server is running in port ${port}`)
+    console.log(`Server is running in port ${port}`)
 })
