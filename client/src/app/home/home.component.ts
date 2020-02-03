@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
     @ViewChild('alert', { static: false }) alert: ElementRef;
+    @ViewChild('x', { static: false }) x: ElementRef;
 
     songs = {};
     songForm: FormGroup;
@@ -76,6 +77,12 @@ export class HomeComponent implements OnInit {
         )
     }
 
+    edit() {
+        let xButton = Array.from(document.getElementsByClassName('deleteButton') as HTMLCollectionOf<HTMLElement>)
+        for (let i = 0; i < xButton.length; i++) {
+            xButton[i].style.display = "inline";
+        }
+    }
 
     // Close notification message
     closeAlert() {
