@@ -13,12 +13,14 @@ import { AuthGuardService } from './guards/auth-guard.service';
 import { UserService } from './shared/user.service';
 import { TokenInterceptorService } from './shared/token-interceptor.service';
 import { MatButtonModule } from '@angular/material/button';
+import { LogoutComponent } from './logout/logout.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
         routingComponents,
+        LogoutComponent,
     ],
     imports: [
         BrowserModule,
