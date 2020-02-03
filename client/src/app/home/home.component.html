@@ -1,66 +1,71 @@
-<div class="container">
-  <div class="row">
-    <div class="col-10">
-      <h1>Hello {{user}}</h1>
-    </div>
-    <div class="col-2">
-      <button (click)="logout()" class="btn btn-warning my-2 btn-block">Logout</button>
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-10">
+        <h1>Hello {{user}}</h1>
+      </div>
+      <div class="col-2">
+        <button (click)="logout()" class="btn btn-warning my-2 btn-block">Logout</button>
+
+      </div>
 
     </div>
 
-  </div>
-
-  <h3> Whats your current favourite song? </h3>
-  <form [formGroup]="songForm" (ngSubmit)="onSubmit(songForm.value)">
-    <!---Song-->
-    <div class="form-group">
-      <input formControlName="song" class="form-control mb-4" placeholder="Song" />
-      <div *ngIf="submitted && f.song.invalid " class="alert alert-danger">
-        <div *ngIf="f.song.errors.required">
-          Please enter a song
+    <h3> Whats your current favourite song? </h3>
+    <form [formGroup]="songForm" (ngSubmit)="onSubmit(songForm.value)">
+      <!---Song-->
+      <div class="form-group">
+        <input formControlName="song" class="form-control mb-4" placeholder="Song" />
+        <div *ngIf="submitted && f.song.invalid " class="alert alert-danger">
+          <div *ngIf="f.song.errors.required">
+            Please enter a song
+          </div>
         </div>
       </div>
-    </div>
 
-    <!---Artist-->
-    <div class="form-group">
-      <input formControlName="artist" class="form-control mb-4" placeholder="Artist" />
-      <div *ngIf="submitted && f.artist.invalid " class="alert alert-danger">
-        <div *ngIf="f.artist.errors.required">
-          Please enter the artist
+      <!---Artist-->
+      <div class="form-group">
+        <input formControlName="artist" class="form-control mb-4" placeholder="Artist" />
+        <div *ngIf="submitted && f.artist.invalid " class="alert alert-danger">
+          <div *ngIf="f.artist.errors.required">
+            Please enter the artist
+          </div>
         </div>
       </div>
+
+      <button class="btn btn-info my-4 btn-block" type="submit">Add Song</button>
+
+    </form>
+
+    <div class="row">
+      <div class="col">
+        <h5 class="inline"> Favourite Songs list</h5> <button (click)="edit()"
+          class="btn edit btn-warning">edit</button>
+
+        <div *ngIf="songs.length> 0">
+          <li *ngFor="let obj of songs">
+            {{obj.song}} - {{obj.artist}}
+            <button id="deleteButton" (click)="deleteSong(obj)" class="deleteButton" style="display:none;"
+              mat-raised-button>x</button>
+          </li>
+        </div>
+        <div *ngIf="songs.length == 0">
+          <p>You currently have no favourite saved song</p>
+        </div>
+
+
+      </div>
+
+
     </div>
-
-    <button class="btn btn-info my-4 btn-block" type="submit">Add Song</button>
-
-  </form>
-
-  <div class="row">
-    <div class="col">
-      <h5 class="inline"> Favourite Songs list</h5> <button (click)="edit()" class="btn edit btn-warning">edit</button>
-
-      <div *ngIf="songs.length> 0">
-        <li *ngFor="let obj of songs">
-          {{obj.song}} - {{obj.artist}}
-          <button id="deleteButton" (click)="deleteSong(obj)" class="deleteButton" style="display:none;"
-            mat-raised-button>x</button>
-        </li>
-      </div>
-      <div *ngIf="songs.length == 0">
-        <p>You can no favourite saved song</p>
-      </div>
-
-
+    <div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
+      <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p>{{delMessage}}</p>
     </div>
 
 
   </div>
-  <div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
-    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <p>{{delMessage}}</p>
-  </div>
-
-</div>
+</body>
