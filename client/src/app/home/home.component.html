@@ -43,7 +43,8 @@
       <div *ngIf="songs.length> 0">
         <li *ngFor="let obj of songs">
           {{obj.song}} - {{obj.artist}}
-          <button (click)="deleteSong(obj)" class="deleteButton" style="display:none;" mat-raised-button>x</button>
+          <button id="deleteButton" (click)="deleteSong(obj)" class="deleteButton" style="display:none;"
+            mat-raised-button>x</button>
         </li>
       </div>
       <div *ngIf="songs.length == 0">

@@ -67,6 +67,7 @@ export class HomeComponent implements OnInit {
     }
 
     getUserSongs() {
+        document.getElementById('deleteButton').style.display = "none"
         this.userService.getSongs().subscribe(
             (res) => {
                 this.songs = res
