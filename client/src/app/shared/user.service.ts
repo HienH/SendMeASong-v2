@@ -38,10 +38,16 @@ export class UserService {
     getSongs() {
         return this.http.get(environment.apiBaseUrl + 'song')
     }
+
     deleteSong(song: Song) {
         return this.http.post(environment.apiBaseUrl + 'song/delete', song);
     }
+
     addSong(newSong: Song) {
         return this.http.post(environment.apiBaseUrl + 'song/add', newSong);
+    }
+
+    loginSpotify(code) {
+        return this.http.post(environment.apiBaseUrl + 'spotifyLogin/signIn', code);
     }
 }

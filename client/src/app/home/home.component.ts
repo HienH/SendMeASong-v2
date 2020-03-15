@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit {
     user: string;
     delSuccess: boolean;
     delMessage: string;
+    connectWithSpotify: boolean;
+    code: string;
 
     constructor(private userService: UserService, private router: Router) { }
 
@@ -67,7 +69,6 @@ export class HomeComponent implements OnInit {
     }
 
     getUserSongs() {
-        document.getElementById('deleteButton').style.display = "none"
         this.userService.getSongs().subscribe(
             (res) => {
                 this.songs = res
@@ -129,4 +130,21 @@ export class HomeComponent implements OnInit {
         )
     }
 
+    spotifyToken() {
+        let url = window.location.href;
+        let urlSplit = url.indexOf('=');
+        let code = url.slice(urlSplit + 1);
+        this.getSpotifyToken(code);
+    }
+
+    getSpotifyToken(code) {
+        this.userService.loginSpotify(code).subscribe(
+            (res) => {
+                console.log(res);
+            },
+            (err) => {
+                console.log(err);
+            }
+        )
+    }
 }
