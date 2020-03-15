@@ -32,6 +32,9 @@ module.exports.loginSpotify = (req, res) => {
 
 
 
+//GET ID
+// https://api.spotify.com/v1/me
+
 
 // CREATE PLAYLIST
 //userId return when creati
