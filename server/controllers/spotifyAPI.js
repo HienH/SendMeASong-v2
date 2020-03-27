@@ -2,71 +2,61 @@ var request = require('request-promise');
 // var request = require('request');
 
 module.exports.loginSpotify = ((req, res) => {
-    let token;
+    //////////////// FIRST REQUEST ///////////////////
 
-    const getToken = new Promise((resolve, reject) => {
-        // Get code
-        const url = req.headers.referer
-        let urlSplit = url.indexOf('=');
-        let code = url.slice(urlSplit + 1);
+    // Get code
+    const url = req.headers.referer;
+    const urlSplit = url.indexOf('=');
+    const code = url.slice(urlSplit + 1);
 
-        const headers = {
-            'Authorization': 'Basic MTY3ZTBiZGM1MWEyNDFjOWExYzc4MWIwZjhjM2RmN2Y6YWI4MWY4MTA3NDk3NDkwOThlNTExYTU0ZjA2OGIxNTU=',
-            'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded',
-        };
+    const getTokenHeaders = {
+        'Authorization': 'Basic MTY3ZTBiZGM1MWEyNDFjOWExYzc4MWIwZjhjM2RmN2Y6YWI4MWY4MTA3NDk3NDkwOThlNTExYTU0ZjA2OGIxNTU=',
+        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+    };
 
-        var dataString = 'grant_type=authorization_code&code=' + code + '&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome';
+    const body = 'grant_type=authorization_code&code=' + code + '&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome';
 
-        var options = {
-            url: 'https://accounts.spotify.com/api/token',
-            method: 'POST',
-            headers: headers,
-            body: dataString
-        };
+    const getTokenOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        method: 'POST',
+        headers: getTokenHeaders,
+        body: body
+    };
 
-
-        request(options, (error, response, body) => {
-            if (response.statusCode == 200) {
-                resolve(JSON.parse(body).access_token);
-            }
-            reject(error)
-        });
-    })
-
-    getToken.then((res) => {
-
-        const getUser = new Promise((resolve, reject, token) => {
-
-            const headers1 = {
-                'Authorization': token,
+    request(getTokenOptions)
+        .then((tokenOptions) => {
+            //////////////// SECOND REQUEST //////////////////
+            const getUserHeaders = {
+                'Authorization': `Bearer ${JSON.parse(tokenOptions).access_token}`,
                 'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
             };
 
-            var options = {
-                url: 'https://accounts.spotify.com/v1/me',
+            const getUserOptions = {
+                url: 'https://api.spotify.com/v1/me',
                 method: 'GET',
-                headers: headers1,
+                headers: getUserHeaders,
             };
+            ////////////////////////////////////////////////
 
-            request(options, (error, response, body) => {
-                if (response.statusCode == 200) {
-                    console.log(resonse)
-                    resolve(JSON.parse(body));
-                }
-                reject(error)
-            });
+            return request(getUserOptions)
+                .then((userOptionsData) => {
+                    res.send(userOptionsData);
+                });
         })
-        this.token = res;
-        this.getUser(token).then((res) => {
-            console.log(res)
-        })
-    }
+        .catch(function(error) {
+            res.status(error.statusCode).send(error);
+        });
 
-    ).catch((error) => {
-        console.log(error)
-    });
+
+    // getToken.then((res) => {
+    //     token = res;
+    //     getUser.then((res) => {
+    //         console.log(res);
+    //     })
+    // }).catch((error) => {
+    //     console.log(error)
+    // });
 
 
 
