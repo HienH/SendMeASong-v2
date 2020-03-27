@@ -2,6 +2,7 @@ var request = require('request-promise');
 // var request = require('request');
 
 module.exports.loginSpotify = ((req, res) => {
+    let token;
 
     const getToken = new Promise((resolve, reject) => {
         // Get code
@@ -9,7 +10,7 @@ module.exports.loginSpotify = ((req, res) => {
         let urlSplit = url.indexOf('=');
         let code = url.slice(urlSplit + 1);
 
-        var headers = {
+        const headers = {
             'Authorization': 'Basic MTY3ZTBiZGM1MWEyNDFjOWExYzc4MWIwZjhjM2RmN2Y6YWI4MWY4MTA3NDk3NDkwOThlNTExYTU0ZjA2OGIxNTU=',
             'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -27,17 +28,50 @@ module.exports.loginSpotify = ((req, res) => {
 
         request(options, (error, response, body) => {
             if (response.statusCode == 200) {
-                resolve(body.access_token);
+                resolve(JSON.parse(body).access_token);
             }
             reject(error)
         });
     })
 
     getToken.then((res) => {
-        console.log(res);
-        let token = res
-        console.log(token);
-    })
+
+        const getUser = new Promise((resolve, reject, token) => {
+
+            const headers1 = {
+                'Authorization': token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            };
+
+            var options = {
+                url: 'https://accounts.spotify.com/v1/me',
+                method: 'GET',
+                headers: headers1,
+            };
+
+            request(options, (error, response, body) => {
+                if (response.statusCode == 200) {
+                    console.log(resonse)
+                    resolve(JSON.parse(body));
+                }
+                reject(error)
+            });
+        })
+        this.token = res;
+        this.getUser(token).then((res) => {
+            console.log(res)
+        })
+    }
+
+    ).catch((error) => {
+        console.log(error)
+    });
+
+
+
+
+
 });
 
 //GET ID
