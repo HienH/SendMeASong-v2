@@ -2,9 +2,11 @@ var request = require('request-promise');
 // var request = require('request');
 
 module.exports.loginSpotify = ((req, res) => {
-    //////////////// FIRST REQUEST ///////////////////
 
-    // Get code
+    const songs = req.body;
+    let token;
+    //////////////// FIRST REQUEST ///////////////////
+    // get code
     const url = req.headers.referer;
     const urlSplit = url.indexOf('=');
     const code = url.slice(urlSplit + 1);
@@ -23,13 +25,15 @@ module.exports.loginSpotify = ((req, res) => {
         headers: getTokenHeaders,
         body: body
     };
+    ///////////////////////////////////////////////
 
     request(getTokenOptions)
         .then((tokenOptions) => {
+            token = `Bearer ${JSON.parse(tokenOptions).access_token}`
             //////////////// SECOND REQUEST //////////////////
             const getUserHeaders = {
-                'Authorization': `Bearer ${JSON.parse(tokenOptions).access_token}`,
-                'Accept': 'application/json',
+                'Authorization': token,
+                'Content-Type': 'application/json',
             };
 
             const getUserOptions = {
@@ -39,28 +43,70 @@ module.exports.loginSpotify = ((req, res) => {
             };
             ////////////////////////////////////////////////
 
-            return request(getUserOptions)
-                .then((userOptionsData) => {
-                    res.send(userOptionsData);
+            request(getUserOptions)
+                .then((userData) => {
+                    const user_id = JSON.parse(userData).id
+                    ////////////////////// THIRD REQUEST ////////////////////
+
+                    var dataString = '{"name":"API created"}';
+
+                    var createPlaylistOption = {
+                        url: `https://api.spotify.com/v1/users/${user_id}/playlists`,
+                        method: 'POST',
+                        headers: getUserHeaders,
+                        body: dataString
+                    };
+                    ////////////////////////////////////////////////////////
+
+                    request(createPlaylistOption).then((playlistData) => {
+                        let songId;
+                        let playListiD;
+
+                        const getSongTitle = {
+                            'Authorization': token,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        };
+
+                        playListiD = JSON.parse(playlistData).id
+
+                        ///////////////////// FORTH REQUEST ////////////////////////
+                        for (let i = 0; i < songs.length; i++) {
+                            const song = encodeURIComponent(songs[0].song);
+                            const artist = encodeURIComponent(songs[0].artist);
+
+                            const searchSong = {
+                                url: `https://api.spotify.com/v1/search?q=${song}&type=track&artist=${artist}&market=US&offset=0&limit=1`,
+                                method: 'GET',
+                                headers: getSongTitle,
+                            };
+
+                            request(searchSong).then((songInfo) => {
+                                const track = JSON.parse(songInfo)
+                                const items = track["tracks"]["items"]
+                                songId = items[0]["id"];
+
+                                ///////////////////// FIFTH REQUEST ////////////////////////
+                                const addToPlaylist = {
+                                    url: `https://api.spotify.com/v1/playlists/${playListiD}/tracks?uris=spotify%3Atrack%3A${songId}`,
+                                    method: 'POST',
+                                    headers: getUserHeaders,
+                                    body: dataString
+                                };
+
+                                request(addToPlaylist).then((addSong) => {
+                                    //////////////////////////////////////////////////////////
+                                });
+                            });
+
+                        }
+                    });
+
+                })
+                .catch(function (error) {
+                    res.status(error.statusCode).send(error);
                 });
-        })
-        .catch(function(error) {
-            res.status(error.statusCode).send(error);
         });
-
-
-    // getToken.then((res) => {
-    //     token = res;
-    //     getUser.then((res) => {
-    //         console.log(res);
-    //     })
-    // }).catch((error) => {
-    //     console.log(error)
-    // });
-
-
-
-
 
 });
 

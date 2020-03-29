@@ -138,7 +138,7 @@ export class HomeComponent implements OnInit {
     }
 
     getSpotifyToken(code) {
-        this.userService.loginSpotify(code).subscribe(
+        this.userService.loginSpotify(this.songs).subscribe(
             (res) => {
                 console.log(res);
             },

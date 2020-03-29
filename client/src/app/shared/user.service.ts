@@ -47,7 +47,7 @@ export class UserService {
         return this.http.post(environment.apiBaseUrl + 'song/add', newSong);
     }
 
-    loginSpotify(code) {
-        return this.http.post(environment.apiBaseUrl + 'spotifyLogin/signIn', code);
+    loginSpotify(songs) {
+        return this.http.post(environment.apiBaseUrl + 'spotifyLogin/signIn', songs);
     }
 }
