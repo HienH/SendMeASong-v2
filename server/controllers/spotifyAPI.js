@@ -1,8 +1,6 @@
 var request = require('request-promise');
-// var request = require('request');
 
 module.exports.loginSpotify = ((req, res) => {
-
     const songs = req.body;
     let token;
     //////////////// FIRST REQUEST ///////////////////
@@ -48,7 +46,7 @@ module.exports.loginSpotify = ((req, res) => {
                     const user_id = JSON.parse(userData).id
                     ////////////////////// THIRD REQUEST ////////////////////
 
-                    var dataString = '{"name":"API created"}';
+                    var dataString = '{"name":"working api"}';
 
                     var createPlaylistOption = {
                         url: `https://api.spotify.com/v1/users/${user_id}/playlists`,
@@ -72,8 +70,8 @@ module.exports.loginSpotify = ((req, res) => {
 
                         ///////////////////// FORTH REQUEST ////////////////////////
                         for (let i = 0; i < songs.length; i++) {
-                            const song = encodeURIComponent(songs[0].song);
-                            const artist = encodeURIComponent(songs[0].artist);
+                            const song = encodeURIComponent(songs[i].song);
+                            const artist = encodeURIComponent(songs[i].artist);
 
                             const searchSong = {
                                 url: `https://api.spotify.com/v1/search?q=${song}&type=track&artist=${artist}&market=US&offset=0&limit=1`,
@@ -108,21 +106,5 @@ module.exports.loginSpotify = ((req, res) => {
                 });
         });
 
-});
-
-//GET ID
-// https://api.spotify.com/v1/me
-
-
-// CREATE PLAYLIST
-//userId return when creati
-//POST h//ttps://api.spotify.com/v1/users/{user_id}/playlists
-
-// SEARCH TRACK
-// https://api.spotify.com/v1/search?q={search}&type=track&artist={artist}&market=US
-// get id {track.ID}
-
-// ADD TRACK 
-// https://api.spotify.com/v1/playlists/{plauylistID}/tracks?uris=spotify%3Atrack%3A{trackURIS}
-
-
+}
+);
