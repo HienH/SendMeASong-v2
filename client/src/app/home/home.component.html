@@ -2,51 +2,62 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-10">
+      <div class="col-9">
         <h1>Hello {{user}}</h1>
       </div>
-      <div class="col-2">
+      <div class="col-3">
         <button (click)="logout()" class="btn btn-warning my-2 btn-block">Logout</button>
-
       </div>
-
     </div>
-
-    <h3> Whats your current favourite song? </h3>
-    <form [formGroup]="songForm" (ngSubmit)="onSubmit(songForm.value)">
-      <!---Song-->
-      <div class="form-group">
-        <input formControlName="song" class="form-control mb-4" placeholder="Song" />
-        <div *ngIf="submitted && f.song.invalid " class="alert alert-danger">
-          <div *ngIf="f.song.errors.required">
-            Please enter a song
-          </div>
-        </div>
-      </div>
-
-      <!---Artist-->
-      <div class="form-group">
-        <input formControlName="artist" class="form-control mb-4" placeholder="Artist" />
-        <div *ngIf="submitted && f.artist.invalid " class="alert alert-danger">
-          <div *ngIf="f.artist.errors.required">
-            Please enter the artist
-          </div>
-        </div>
-      </div>
-
-      <button class="btn btn-info my-4 btn-block" type="submit">Add Song</button>
-
-    </form>
-
     <div class="row">
-      <div class="col">
+      <div class="col-12">
+        <h3> Whatyour current favourite song? </h3>
+        <form [formGroup]="songForm" (ngSubmit)="onSubmit(songForm.value)">
+          <!---Song-->
+          <div class="form-group">
+            <input formControlName="song" class="form-control mb-4" placeholder="Song" />
+            <div *ngIf="submitted && f.song.invalid " class="alert alert-danger">
+              <div *ngIf="f.song.errors.required">
+                Please enter a song
+              </div>
+            </div>
+          </div>
+
+          <!---Artist-->
+          <div class="form-group">
+            <input formControlName="artist" class="form-control mb-4" placeholder="Artist" />
+            <div *ngIf="submitted && f.artist.invalid " class="alert alert-danger">
+              <div *ngIf="f.artist.errors.required">
+                Please enter the artist
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-info my-4 btn-block" type="submit">Add Song</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <div *ngIf="friendsPlaylist.length> 0">
+          <h3>Friends Playlist</h3>
+          <li *ngFor="let friendPlaylist of friendsPlaylist">
+            {{friendPlaylist.name}}
+            <button class="deleteButton" (click)="addToPlaylist(friendPlaylist.songs)" mat-raised-button>Add</button>
+          </li>
+        </div>
+
+        <div *ngIf="friendsPlaylist.length == 0">
+          <p>You currently have no friends playlist</p>
+        </div>
+
+      </div>
+
+      <div class="col-6">
         <h5 class="inline"> Favourite Songs list</h5>
         <button (click)="edit()" class="btn edit btn-warning">edit</button>
-        <a
-          href="https://accounts.spotify.com/authorize?client_id=167e0bdc51a241c9a1c781b0f8c3df7f&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome&scope=user-read-private%20playlist-modify-public%20playlist-modify-private%20playlist-read-private%20user-read-email&state=34fFs29kd09">
-          Connect to spotify</a>
-        <button (click)="spotifyToken()" class="btn btn-success">Make playlist</button>
-
 
         <div *ngIf="songs.length> 0">
           <li *ngFor="let obj of songs">
@@ -55,22 +66,40 @@
               mat-raised-button>x</button>
           </li>
         </div>
+
         <div *ngIf="songs.length == 0">
           <p>You currently have no favourite saved song</p>
         </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <p>{{delMessage}}</p>
+  </div>
 
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h1> Ultimate playlist</h1>
+        <div *ngIf="ultimatePlaylist.length> 0">
+          <li *ngFor="let song of ultimatePlaylist">
+            {{song.song}} - {{song.artist}}
+          </li>
+        </div>
+
+        <a
+          href="https://accounts.spotify.com/authorize?client_id=167e0bdc51a241c9a1c781b0f8c3df7f&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome&scope=user-read-private%20playlist-modify-public%20playlist-modify-private%20playlist-read-private%20user-read-email&state=34fFs29kd09">
+          Connect to spotify</a>
+
+        <button (click)="loginSpotify()" class="btn btn-success">Spotify Login</button>
+        <button (click)="createPlaylist()" class="btn btn-danger">Create playlist</button>
+
+        <button (click)="genForm()" class="btn btn-warning">Generate form</button>
 
       </div>
-
-
     </div>
-    <div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
-      <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <p>{{delMessage}}</p>
-    </div>
-
-
   </div>
 </body>

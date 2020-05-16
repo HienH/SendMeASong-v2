@@ -1,22 +1,30 @@
 const { User } = require('./../models/user.model');
-var ObjectID = require('mongodb').ObjectID;
+const { friendSongs } = require('../models/friendSongs.model');
 
+var ObjectID = require('mongodb').ObjectID;
+const jwt = require('jsonwebtoken');
 
 module.exports.getUser = (req, res) => {
     const user = new ObjectID(res.locals.userId);
-    User.findById(user).populate('songs')
+    User.findById(user).populate('songs').populate('friendSongs')
         .then(user => res.status(200).json({
             user: user
         }))
         .catch(err => res.status(400).json('Error:' + err));
-
 };
+
+// module.exports.getFriendPlaylist = (req, res) => {
+//     const user = new ObjectID(res.locals.userId);
+//     User.findById(user)
+// }
 
 module.exports.register = (req, res) => {
     const newUser = new User();
     newUser.email = req.body.email;
     newUser.password = req.body.password;
     newUser.username = req.body.username;
+
+
 
     User.findOne({ 'email': req.body.email }, (err, user) => {
         if (!user) {
@@ -41,8 +49,6 @@ module.exports.register = (req, res) => {
                 sucess: false
             })
         }
-
-
     })
 
 };
@@ -73,6 +79,25 @@ module.exports.login = (req, res) => {
     })
 }
 
+module.exports.saveFriendSongs = async (req, res) => {
+    const id = req.body.formId
+
+    const name = req.body.name;
+    const songs = req.body.songs;
+    const newFriendSongs = new friendSongs({
+        name,
+        songs
+    });
+
+    const user = await User.findOne({ 'formId': id });
+
+    await newFriendSongs.save();
+    user.friendSongs.push(newFriendSongs);
+    await user.save();
+
+    res.status(200).json(user);
+}
+
 module.exports.logout = (req, res) => {
     const user = new ObjectID(res.locals.userId);
     User.findByIdAndUpdate(
@@ -99,4 +124,23 @@ module.exports.isLoggedin = (req, res) => {
         }
 
     })
+}
+
+module.exports.getAllUsers = (req, res) => {
+
+    User.find().populate()
+        .then(users => res.status(200).json({
+            users: users
+        }))
+        .catch(err => res.status(400).json('Error:' + err));
+}
+
+module.exports.getOtherUserSong = (req, res) => {
+    const username = req.params.username;
+
+    User.find({ username: username }).populate('songs')
+        .then(userInfo => res.status(200).json({
+            user: userInfo
+        }))
+        .catch(err => res.status(400).json('Error:' + err));
 }

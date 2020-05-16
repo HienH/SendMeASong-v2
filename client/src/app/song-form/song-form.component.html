@@ -1,0 +1,50 @@
+<div class="container">
+  <h1>Hello</h1>
+
+
+  <input [(ngModel)]="name" #ctrl="ngModel" class="form-control mb-4" placeholder="Name">
+  <div *ngIf="submitted && name==undefined " class="alert alert-danger">
+    Please enter your name
+
+  </div>
+
+
+  <form [formGroup]="smasForm" (ngSubmit)="add(smasForm.value)">
+    <h1> What's your Favourite Song? </h1>
+    <!---Song-->
+    <div class="form-group">
+      <input formControlName="song" class="form-control mb-4" placeholder="Song" />
+      <div *ngIf="addSong && f.song.invalid " class="alert alert-danger">
+        <div *ngIf="f.song.errors.required">
+          Please enter a song
+        </div>
+      </div>
+    </div>
+
+    <!---Artist-->
+    <div class="form-group">
+      <input formControlName="artist" class="form-control mb-4" placeholder="Artist" />
+      <div *ngIf="addSong && f.artist.invalid " class="alert alert-danger">
+        <div *ngIf="f.artist.errors.required">
+          Please enter the artist
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-info my-4 btn-block" type="submit">Add Song</button>
+  </form>
+
+  <div *ngIf="songs.length> 0">
+    <h2>Current Favourite List</h2>
+
+    <li *ngFor="let song of songs; let i = index">
+      {{song.song}} - {{song.artist}}
+      <button id="deleteButton" (click)="deleteSong(index)" class="deleteButton" mat-raised-button>x</button>
+    </li>
+
+    <button class="btn btn-warning" (click)="submit()">Submit Song</button>
+    <div *ngIf="submitted && songs.length < 2 " class="alert alert-danger">
+      Please enter more than 2 Songs
+    </div>
+
+  </div>
+</div>

@@ -3,9 +3,14 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const SALT_I = 10;
 const jwt = require('jsonwebtoken')
+var AutoIncrement = require('mongoose-sequence')(mongoose);
+
 require('dotenv').config();
 
 const userSchema = mongoose.Schema({
+    formId: {
+        type: Number,
+    },
     email: {
         type: String,
         require: true,
@@ -28,7 +33,17 @@ const userSchema = mongoose.Schema({
     }],
     token: {
         type: String
-    }
+    },
+    spotifytoken: {
+        type: String
+    },
+    spotifyPlaylistId: {
+        type: String
+    },
+    friendSongs: [{
+        type: Schema.Types.ObjectId,
+        ref: 'friendSong'
+    }]
 });
 
 
@@ -60,7 +75,7 @@ userSchema.methods.comparePassword = function (enteredPassword, cb) {
 userSchema.methods.generateToken = function (cb) {
     let user = this;
     let token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: 8640
+        expiresIn: "4h"
     });
     user.token = token;
     user.save(function (err, user) {
@@ -80,6 +95,8 @@ userSchema.statics.findByToken = function (token, cb) {
 
     })
 }
+
+userSchema.plugin(AutoIncrement, { id: 'order_seq', inc_field: 'formId' });
 const User = mongoose.model('User', userSchema);
 
 module.exports = { User }

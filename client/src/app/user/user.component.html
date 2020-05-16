@@ -1,0 +1,32 @@
+<main class="text-center my-5">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>{{username}}</h3>
+        <img src="../../assets/stary.jpg" alt="image" height="250" width="250">
+
+      </div>
+    </div>
+  </div>
+
+</main>
+<!--Main Layout-->
+<div class="row text-center">
+  <div class="col">
+    <h3> {{username}} Playlist</h3>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="songs.length> 0">
+      <li *ngFor="let song of songs">
+        {{song.song}} - {{song.artist}}
+      </li>
+    </div>
+    <div *ngIf="songs.length == 0">
+      <p>{{username}} currently have no favourite saved song</p>
+    </div>
+  </div>
+</div>

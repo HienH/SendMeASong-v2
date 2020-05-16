@@ -7,18 +7,22 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { UserService } from './shared/user.service';
 import { TokenInterceptorService } from './shared/token-interceptor.service';
 import { MatButtonModule } from '@angular/material/button';
-
+import { UserComponent } from './user/user.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SongFormComponent } from './song-form/song-form.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         routingComponents,
+        UserComponent,
+        SongFormComponent,
     ],
     imports: [
         BrowserModule,
@@ -29,7 +33,8 @@ import { MatButtonModule } from '@angular/material/button';
         MatIconModule,
         HttpClientModule,
         MatButtonModule,
-
+        MatDialogModule,
+        BrowserAnimationsModule
 
     ],
     providers: [AuthGuardService, {
@@ -37,6 +42,7 @@ import { MatButtonModule } from '@angular/material/button';
         useClass: TokenInterceptorService,
         multi: true
     }],
+
     bootstrap: [AppComponent]
 })
 export class AppModule { }

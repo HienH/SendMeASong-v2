@@ -3,6 +3,7 @@ import { User } from './user.model';
 import { Song } from './song.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { SongForm } from '../song-form/song-form.model';
 
 @Injectable({
     providedIn: 'root'
@@ -50,4 +51,20 @@ export class UserService {
     loginSpotify(songs) {
         return this.http.post(environment.apiBaseUrl + 'spotifyLogin/signIn', songs);
     }
+
+    createPlaylist() {
+        return this.http.get(environment.apiBaseUrl + 'spotifyLogin/create');
+    }
+
+    getUsers() {
+        return this.http.get(environment.apiBaseUrl + 'user/users')
+    }
+    getOtherUserSong(username) {
+        return this.http.get(environment.apiBaseUrl + 'user/otherUser/' + username);
+    }
+
+    sendFriendPlaylist(newSongForm: SongForm) {
+        return this.http.post(environment.apiBaseUrl + 'user/addFriendSongs', newSongForm)
+    }
+
 }

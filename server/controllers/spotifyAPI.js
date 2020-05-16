@@ -1,110 +1,103 @@
-var request = require('request-promise');
+const request = require('request-promise');
+const { User } = require('../models/user.model');
+const ObjectID = require('mongodb').ObjectID;
+var querystring = require('querystring');
 
-module.exports.loginSpotify = ((req, res) => {
-    const songs = req.body;
-    let token;
-    //////////////// FIRST REQUEST ///////////////////
-    // get code
-    const url = req.headers.referer;
-    const urlSplit = url.indexOf('=');
-    const code = url.slice(urlSplit + 1);
+module.exports.loginSpotify = (async (req, res) => {
+    const userId = new ObjectID(res.locals.userId);
+    const user = await User.findById(userId);
 
-    const getTokenHeaders = {
-        'Authorization': 'Basic MTY3ZTBiZGM1MWEyNDFjOWExYzc4MWIwZjhjM2RmN2Y6YWI4MWY4MTA3NDk3NDkwOThlNTExYTU0ZjA2OGIxNTU=',
-        'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-    };
+    const spotify = {
+        getSpotifyToken: function () {
+            const url = req.headers.referer;
+            // get spotify code needed for accces token
+            const splitUrl = url.indexOf('=');
+            const spotifyCode = url.slice(splitUrl + 1);
 
-    const body = 'grant_type=authorization_code&code=' + code + '&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome';
+            const headers = {
+                'Authorization': 'Basic MTY3ZTBiZGM1MWEyNDFjOWExYzc4MWIwZjhjM2RmN2Y6YWI4MWY4MTA3NDk3NDkwOThlNTExYTU0ZjA2OGIxNTU=',
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
 
-    const getTokenOptions = {
-        url: 'https://accounts.spotify.com/api/token',
-        method: 'POST',
-        headers: getTokenHeaders,
-        body: body
-    };
-    ///////////////////////////////////////////////
+            const body = 'grant_type=authorization_code&code=' + spotifyCode + '&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome';
 
-    request(getTokenOptions)
-        .then((tokenOptions) => {
-            token = `Bearer ${JSON.parse(tokenOptions).access_token}`
-            //////////////// SECOND REQUEST //////////////////
-            const getUserHeaders = {
-                'Authorization': token,
-                'Content-Type': 'application/json',
+            const tokenOptions = {
+                url: 'https://accounts.spotify.com/api/token',
+                method: 'POST',
+                headers: headers,
+                body: body
             };
 
-            const getUserOptions = {
-                url: 'https://api.spotify.com/v1/me',
-                method: 'GET',
-                headers: getUserHeaders,
-            };
-            ////////////////////////////////////////////////
+            return request(tokenOptions);
+        },
 
-            request(getUserOptions)
-                .then((userData) => {
-                    const user_id = JSON.parse(userData).id
-                    ////////////////////// THIRD REQUEST ////////////////////
+    };
 
-                    var dataString = '{"name":"working api"}';
-
-                    var createPlaylistOption = {
-                        url: `https://api.spotify.com/v1/users/${user_id}/playlists`,
-                        method: 'POST',
-                        headers: getUserHeaders,
-                        body: dataString
-                    };
-                    ////////////////////////////////////////////////////////
-
-                    request(createPlaylistOption).then((playlistData) => {
-                        let songId;
-                        let playListiD;
-
-                        const getSongTitle = {
-                            'Authorization': token,
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        };
-
-                        playListiD = JSON.parse(playlistData).id
-
-                        ///////////////////// FORTH REQUEST ////////////////////////
-                        for (let i = 0; i < songs.length; i++) {
-                            const song = encodeURIComponent(songs[i].song);
-                            const artist = encodeURIComponent(songs[i].artist);
-
-                            const searchSong = {
-                                url: `https://api.spotify.com/v1/search?q=${song}&type=track&artist=${artist}&market=US&offset=0&limit=1`,
-                                method: 'GET',
-                                headers: getSongTitle,
-                            };
-
-                            request(searchSong).then((songInfo) => {
-                                const track = JSON.parse(songInfo)
-                                const items = track["tracks"]["items"]
-                                songId = items[0]["id"];
-
-                                ///////////////////// FIFTH REQUEST ////////////////////////
-                                const addToPlaylist = {
-                                    url: `https://api.spotify.com/v1/playlists/${playListiD}/tracks?uris=spotify%3Atrack%3A${songId}`,
-                                    method: 'POST',
-                                    headers: getUserHeaders,
-                                    body: dataString
-                                };
-
-                                request(addToPlaylist).then((addSong) => {
-                                    //////////////////////////////////////////////////////////
-                                });
-                            });
-
-                        }
-                    });
-
-                })
-                .catch(function (error) {
-                    res.status(error.statusCode).send(error);
-                });
+    spotify.getSpotifyToken().then((result) => {
+        user.spotifytoken = JSON.parse(result).refresh_token
+        user.save().then((user, err) => {
+            if (err | !user) { return res.status(400).send(err) };
+            return res.status(200).json({
+                spotifySuccess: true,
+            })
         });
 
-}
-);
+    });
+});
+
+module.exports.createSpotifyPlaylist = ((req, res) => {
+    const spotify = res.locals.spotifyAccessToken
+
+    const createPlaylist = {
+        getUserDetail: function () {
+            const headers = {
+                'Authorization': `Bearer ${spotify}`,
+                'Content-Type': 'application/json',
+            }
+            const userOptions = {
+                url: 'https://api.spotify.com/v1/me',
+                method: 'GET',
+                headers: headers,
+            };
+            return request(userOptions);
+        },
+
+
+        savePlaylistId: function (userDetail) {
+            const userId = JSON.parse(userDetail).id;
+            const playlistName = '{"name":"smas playlist"}';
+
+            const headers = {
+                'Authorization': `Bearer ${spotify}`,
+                'Content-Type': 'application/json',
+            }
+
+            const playlistOptions = {
+                url: `https://api.spotify.com/v1/users/${userId}/playlists`,
+                method: 'POST',
+                headers: headers,
+                body: playlistName
+            }
+            return request(playlistOptions)
+        }
+    }
+
+    function main() {
+        return createPlaylist.getUserDetail()
+            .then(createPlaylist.savePlaylistId)
+    }
+    main().then(async (result) => {
+        const userID = new ObjectID(res.locals.userId);
+        const user = await User.findById(userID);
+        user.spotifyPlaylistId = JSON.parse(result).id
+
+        user.save().then((user, err) => {
+            if (err | !user) { return res.status(400).send(err) };
+            return res.status(200).json({
+                playlistCreated: true,
+            })
+        });
+    })
+
+});
