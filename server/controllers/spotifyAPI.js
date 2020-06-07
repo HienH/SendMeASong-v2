@@ -97,6 +97,7 @@ module.exports.createSpotifyPlaylist = (async (req, res) => {
 });
 
 module.exports.addSong = (async (req, res) => {
+    console.log("hee")
     const spotifyToken = res.locals.spotifyAccessToken
     const userId = new ObjectID(res.locals.userId);
     const user = await User.findById(userId);
@@ -115,40 +116,52 @@ module.exports.addSong = (async (req, res) => {
         const id = jsonObj["tracks"]["items"][0]["id"];
         return { songName, id };
     });
-    await Promise.all(result).then(res => {
-        addToPlaylist(res).then(
-            saveToSongHistory()
+
+    await Promise.all(result).then((songIds, error) => {
+        if (error) {
+            console.log(error)
+        }
+        playlistAdd(songIds).then(
+            saveToSongHistory().then(
+                res.status(200).json({
+                    sucess: "truexx"
+                })
+            ).catch(err => {
+                console.log(err)
+            })
         );
+    }).catch(err => {
+        console.log(err)
     });
 
-    function saveToSongHistory() {
-        songs.map(s => {
-            const newSong = new Song();
-            newSong.song = s.song;
-            newSong.artist = s.artist;
-            user.songsAdded.push(newSong);
-            user.save();
-        });
-
-        res.status(200).json({
-            sucess: true
-        })
-    }
-
-    function addToPlaylist(songs) {
+    function playlistAdd(songs) {
         const uri = [];
         for (var i = 0; i < songs.length; i++) {
             uri.push("spotify:track:" + songs[i].id)
         }
 
-        var res = uri.toString().replace("/:/g", "%3");
+        var encodedUri = uri.toString().replace("/:/g", "%3");
 
         const addToPlaylist = {
-            url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${res}`,
+            url: `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=${encodedUri}`,
             method: 'POST',
             headers: headers,
         };
         return request(addToPlaylist);
+    }
+
+    async function saveToSongHistory() {
+        songs.map(s => {
+            try {
+                const newSong = new Song();
+                newSong.song = s.song;
+                newSong.artist = s.artist;
+                user.songsAdded.push(newSong);
+            } catch (e) {
+                console.log(e)
+            }
+        })
+        await user.save();
     }
 
     function getSongId(unCodedSong, unCodedArtist) {

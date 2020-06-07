@@ -27,8 +27,6 @@ export class HomeComponent implements OnInit {
     connectedToSpotify: boolean;
     formId: number
 
-
-
     constructor(private userService: UserService, private router: Router, private dialog: MatDialog) { }
 
     ngOnInit() {
@@ -153,8 +151,8 @@ export class HomeComponent implements OnInit {
         this.dialog.open(PlaylistComponent, config)
     }
 
-    addToPlaylist(playlistSongs) {
-        // console.log(playlistSongs)
+    addSongs(playlistSongs) {
+        console.log("clicked")
         this.userService.addToPlaylist(playlistSongs).subscribe(
             (res) => {
                 console.log(res);

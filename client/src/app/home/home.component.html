@@ -50,7 +50,7 @@
           <h3>Friends Playlist</h3>
           <li *ngFor="let friendPlaylist of friendsPlaylist" (click)="openUser(friendPlaylist)">
             {{friendPlaylist.name}}
-            <button class="button" (click)="addToPlaylist(friendPlaylist.songs)" mat-raised-button>Add</button>
+            <button class="button" (click)="addSongs(friendPlaylist.songs)" mat-raised-button>Add</button>
           </li>
         </div>
 
@@ -65,54 +65,3 @@
   </div>
 
 </body>
-<!-- 
-<div class="container">
-    <div class="row">
-      <div class="col-6">
-        <div *ngIf="friendsPlaylist.length> 0">
-          <h3>Friends Playlist</h3>
-          <li *ngFor="let friendPlaylist of friendsPlaylist">
-            {{friendPlaylist.name}}
-            <button class="deleteButton" (click)="addToPlaylist(friendPlaylist.songs)" mat-raised-button>Add</button>
-          </li>
-        </div>
-
-        <div *ngIf="friendsPlaylist.length == 0">
-          <p>You currently have no friends playlist</p>
-        </div>
-
-      </div>
-
-
-    </div>
-  </div>
-  <div *ngIf="delSuccess && delMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
-    <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <p>{{delMessage}}</p>
-  </div> -->
-
-
-<!-- <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <h1> Ultimate playlist</h1>
-        <div *ngIf="ultimatePlaylist.length> 0">
-          <li *ngFor="let song of ultimatePlaylist">
-            {{song.song}} - {{song.artist}}
-          </li>
-        </div>
-
-        <a
-          href="https://accounts.spotify.com/authorize?client_id=167e0bdc51a241c9a1c781b0f8c3df7f&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome&scope=user-read-private%20playlist-modify-public%20playlist-modify-private%20playlist-read-private%20user-read-email&state=34fFs29kd09">
-          Connect to spotify</a>
-
-        <button (click)="loginSpotify()" class="btn btn-success">Spotify Login</button>
-        <button (click)="createPlaylist()" class="btn btn-danger">Create playlist</button>
-
-        <button (click)="genForm()" class="btn btn-warning">Generate form</button>
-
-      </div>
-    </div>
-  </div> -->
