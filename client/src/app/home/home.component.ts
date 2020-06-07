@@ -152,7 +152,6 @@ export class HomeComponent implements OnInit {
     }
 
     addSongs(playlistSongs) {
-        console.log("clicked")
         this.userService.addToPlaylist(playlistSongs).subscribe(
             (res) => {
                 console.log(res);
@@ -163,17 +162,6 @@ export class HomeComponent implements OnInit {
         )
 
     }
-
-    // createPlaylist() {
-    //     this.userService.createPlaylist().subscribe(
-    //         (res) => {
-    //             console.log(res);
-    //         },
-    //         (err) => {
-    //             console.log(err);
-    //         }
-    //     )
-    // }
 
     genForm() {
         const url = this.router.serializeUrl(this.router.createUrlTree(['/songForm/' + this.formId]));

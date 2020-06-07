@@ -37,13 +37,3 @@ module.exports.deleteSong = async (req, res) => {
     res.status(200).json({ message: 'Song deleted' });
 
 }
-
-
-    // console.log(playlist.songs);
-    // await playlist.save();
-    // res.status(200).json('Song del');
-
-    // playlist.songs.findOneAndDelete(songId);
-    // await playlist.save();
-    // res.status(200).json('Song deleted');
-

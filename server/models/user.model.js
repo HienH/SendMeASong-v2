@@ -27,9 +27,9 @@ const userSchema = mongoose.Schema({
         require: true,
         maxlength: 20
     },
-    songsAdded: [{
+    playlistHistory: [{
         type: Schema.Types.ObjectId,
-        ref: 'Song'
+        ref: 'friendSong'
     }],
     token: {
         type: String

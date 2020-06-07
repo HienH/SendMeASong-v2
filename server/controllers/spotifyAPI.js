@@ -1,6 +1,5 @@
 const request = require('request-promise');
 const { User } = require('../models/user.model');
-const { Song } = require('../models/song.model');
 const ObjectID = require('mongodb').ObjectID;
 var querystring = require('querystring');
 
@@ -97,12 +96,12 @@ module.exports.createSpotifyPlaylist = (async (req, res) => {
 });
 
 module.exports.addSong = (async (req, res) => {
-    console.log("hee")
     const spotifyToken = res.locals.spotifyAccessToken
     const userId = new ObjectID(res.locals.userId);
     const user = await User.findById(userId);
     const playlistId = user.spotifyPlaylistId;
-    const songs = req.body;
+    const friendPlaylist = req.body;
+    const songs = friendPlaylist.songs;
 
     const headers = {
         'Authorization': 'Bearer ' + spotifyToken,
@@ -151,17 +150,13 @@ module.exports.addSong = (async (req, res) => {
     }
 
     async function saveToSongHistory() {
-        songs.map(s => {
-            try {
-                const newSong = new Song();
-                newSong.song = s.song;
-                newSong.artist = s.artist;
-                user.songsAdded.push(newSong);
-            } catch (e) {
-                console.log(e)
-            }
-        })
-        await user.save();
+        try {
+            user.playlistHistory.push(friendPlaylist);
+            user.friendSongs.pull(friendPlaylist)
+            user.save();
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     function getSongId(unCodedSong, unCodedArtist) {

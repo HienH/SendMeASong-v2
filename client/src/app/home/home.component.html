@@ -50,7 +50,7 @@
           <h3>Friends Playlist</h3>
           <li *ngFor="let friendPlaylist of friendsPlaylist" (click)="openUser(friendPlaylist)">
             {{friendPlaylist.name}}
-            <button class="button" (click)="addSongs(friendPlaylist.songs)" mat-raised-button>Add</button>
+            <button class="button" (click)="addSongs(friendPlaylist)" mat-raised-button>Add</button>
           </li>
         </div>
 

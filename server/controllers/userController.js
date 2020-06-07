@@ -24,8 +24,6 @@ module.exports.register = (req, res) => {
     newUser.password = req.body.password;
     newUser.username = req.body.username;
 
-
-
     User.findOne({ 'email': req.body.email }, (err, user) => {
         if (!user) {
             newUser.save((err, doc) => {

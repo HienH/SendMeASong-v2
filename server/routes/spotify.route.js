@@ -13,5 +13,4 @@ router.get('/createPlaylist', verifyToken.verifyToken, spotifyController.createS
 // add song
 router.post('/addToPlaylist', verifyToken.verifyToken, refreshSpotify.refreshSpotify, spotifyController.addSong);
 
-
 module.exports = router;

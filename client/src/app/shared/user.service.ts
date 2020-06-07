@@ -27,6 +27,7 @@ export class UserService {
     isLoggedIn() {
         return !!localStorage.getItem('token');
     }
+
     getToken() {
         const token = localStorage.getItem('token');
         return token ? token : null;
