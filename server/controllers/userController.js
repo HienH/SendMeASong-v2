@@ -14,8 +14,8 @@ module.exports.getUser = (req, res) => {
 };
 
 // module.exports.getFriendPlaylist = (req, res) => {
-//     const user = new ObjectID(res.locals.userId);
-//     User.findById(user)
+//     const playlist = new ObjectID(res.locals.userId);
+//     User.findById(playlist)
 // }
 
 module.exports.register = (req, res) => {
@@ -45,7 +45,7 @@ module.exports.register = (req, res) => {
         }
         else {
             res.status(409).json({
-                message: "user already exist",
+                message: "playlist already exist",
                 sucess: false
             })
         }

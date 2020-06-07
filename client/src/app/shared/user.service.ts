@@ -13,15 +13,15 @@ export class UserService {
 
     }
     registerUser(user: User) {
-        return this.http.post(environment.apiBaseUrl + 'user/register', user);
+        return this.http.post(environment.apiBaseUrl + 'playlist/register', user);
     }
 
     loginUser(user: User) {
-        return this.http.post(environment.apiBaseUrl + 'user/login', user);
+        return this.http.post(environment.apiBaseUrl + 'playlist/login', user);
     }
     logoutUser() {
         localStorage.setItem('token', '');
-        return this.http.get(environment.apiBaseUrl + 'user/logout')
+        return this.http.get(environment.apiBaseUrl + 'playlist/logout')
     }
 
     isLoggedIn() {
@@ -33,7 +33,7 @@ export class UserService {
     }
 
     getUser() {
-        return this.http.get(environment.apiBaseUrl + 'user/user')
+        return this.http.get(environment.apiBaseUrl + 'playlist/playlist')
     }
 
     getSongs() {
@@ -48,23 +48,20 @@ export class UserService {
         return this.http.post(environment.apiBaseUrl + 'song/add', newSong);
     }
 
-    loginSpotify(songs) {
-        return this.http.post(environment.apiBaseUrl + 'spotifyLogin/signIn', songs);
-    }
-
     createPlaylist() {
-        return this.http.get(environment.apiBaseUrl + 'spotifyLogin/create');
+        return this.http.get(environment.apiBaseUrl + 'spotify/createPlaylist');
     }
 
-    getUsers() {
-        return this.http.get(environment.apiBaseUrl + 'user/users')
-    }
     getOtherUserSong(username) {
-        return this.http.get(environment.apiBaseUrl + 'user/otherUser/' + username);
+        return this.http.get(environment.apiBaseUrl + 'playlist/otherUser/' + username);
     }
 
     sendFriendPlaylist(newSongForm: SongForm) {
-        return this.http.post(environment.apiBaseUrl + 'user/addFriendSongs', newSongForm)
+        return this.http.post(environment.apiBaseUrl + 'playlist/addFriendSongs', newSongForm)
+    }
+
+    addToPlaylist(songs) {
+        return this.http.post(environment.apiBaseUrl + 'spotify/addToPlaylist', songs);
     }
 
 }

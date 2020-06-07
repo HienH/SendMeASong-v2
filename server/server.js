@@ -26,9 +26,10 @@ app.use(cookieParser());
 const userRouter = require('./routes/user.router');
 const songRouter = require('./routes/song.router');
 const spotifyRouter = require('./routes/spotify.route');
-app.use('/user', userRouter);
+
+app.use('/playlist', userRouter);
 app.use('/song', songRouter);
-app.use('/spotifyLogin', spotifyRouter);
+app.use('/spotify', spotifyRouter);
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => {

@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema({
         require: true,
         maxlength: 20
     },
-    songs: [{
+    songsAdded: [{
         type: Schema.Types.ObjectId,
         ref: 'Song'
     }],

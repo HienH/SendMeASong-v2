@@ -3,7 +3,7 @@ import { UserService } from '../shared/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { UserComponent } from '../user/user.component';
+import { PlaylistComponent } from '../playlist/playlist.component';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -14,8 +14,6 @@ import { environment } from '../../environments/environment';
 export class HomeComponent implements OnInit {
     @ViewChild('alert', { static: false }) alert: ElementRef;
     @ViewChild('x', { static: false }) x: ElementRef;
-    users = {}
-    songs = {};
     ultimatePlaylist = []
     friendsPlaylist = []
     songForm: FormGroup;
@@ -34,14 +32,11 @@ export class HomeComponent implements OnInit {
     constructor(private userService: UserService, private router: Router, private dialog: MatDialog) { }
 
     ngOnInit() {
-        this.connectedToSpotify = false;
-
         this.submitted = false;
         this.success = false;
         this.userService.getUser().subscribe(
             (res) => {
                 console.log(res);
-                this.songs = res['user']['songs']
                 this.user = res['user']['username']
                 this.friendsPlaylist = res['user']['friendSongs'];
                 this.formId = res['user']['formId']
@@ -55,7 +50,6 @@ export class HomeComponent implements OnInit {
                 }
             })
         this.createForm();
-        this.getUsers();
 
     }
 
@@ -76,29 +70,6 @@ export class HomeComponent implements OnInit {
                     this.alert.nativeElement.classList.remove('show');
                     this.delMessage = '';
                 }, 2000)
-                this.getUserSongs()
-            },
-            (err) => {
-                console.log(err);
-            }
-        )
-    }
-
-    getUserSongs() {
-        this.userService.getSongs().subscribe(
-            (res) => {
-                this.songs = res
-            },
-            (err) => {
-                console.log(err);
-            }
-        )
-    }
-
-    getUsers() {
-        this.userService.getUsers().subscribe(
-            (res) => {
-                this.users = res['users']
             },
             (err) => {
                 console.log(err);
@@ -128,7 +99,6 @@ export class HomeComponent implements OnInit {
             // Send off to API
             this.userService.addSong(this.songForm.value).subscribe(
                 (res) => {
-                    this.getUserSongs();
                     this.restartForm();
                 },
                 (err) => {
@@ -157,7 +127,7 @@ export class HomeComponent implements OnInit {
         )
     }
 
-    loginSpotify() {
+    createSpotify() {
         let url = window.location.href;
         let urlSplit = url.indexOf('=');
         let code = url.slice(urlSplit + 1);
@@ -165,7 +135,7 @@ export class HomeComponent implements OnInit {
     }
 
     getSpotifyToken(code) {
-        this.userService.loginSpotify(this.ultimatePlaylist).subscribe(
+        this.userService.createPlaylist().subscribe(
             (res) => {
                 console.log(res);
             },
@@ -180,17 +150,12 @@ export class HomeComponent implements OnInit {
         const config = {
             data: username,
         };
-        this.dialog.open(UserComponent, config)
+        this.dialog.open(PlaylistComponent, config)
     }
 
-    addToPlaylist(playlist) {
-        playlist.forEach(song => this.ultimatePlaylist.push(song));
-        console.log(this.ultimatePlaylist)
-        // this.ultimatePlaylist.push(playlist);
-    }
-
-    createPlaylist() {
-        this.userService.createPlaylist().subscribe(
+    addToPlaylist(playlistSongs) {
+        // console.log(playlistSongs)
+        this.userService.addToPlaylist(playlistSongs).subscribe(
             (res) => {
                 console.log(res);
             },
@@ -198,7 +163,19 @@ export class HomeComponent implements OnInit {
                 console.log(err);
             }
         )
+
     }
+
+    // createPlaylist() {
+    //     this.userService.createPlaylist().subscribe(
+    //         (res) => {
+    //             console.log(res);
+    //         },
+    //         (err) => {
+    //             console.log(err);
+    //         }
+    //     )
+    // }
 
     genForm() {
         const url = this.router.serializeUrl(this.router.createUrlTree(['/songForm/' + this.formId]));

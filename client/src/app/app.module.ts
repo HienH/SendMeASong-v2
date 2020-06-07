@@ -13,7 +13,7 @@ import { AuthGuardService } from './guards/auth-guard.service';
 import { UserService } from './shared/user.service';
 import { TokenInterceptorService } from './shared/token-interceptor.service';
 import { MatButtonModule } from '@angular/material/button';
-import { UserComponent } from './user/user.component';
+import { PlaylistComponent } from './playlist/playlist.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SongFormComponent } from './song-form/song-form.component';
 
@@ -21,7 +21,7 @@ import { SongFormComponent } from './song-form/song-form.component';
     declarations: [
         AppComponent,
         routingComponents,
-        UserComponent,
+        PlaylistComponent,
         SongFormComponent,
     ],
     imports: [

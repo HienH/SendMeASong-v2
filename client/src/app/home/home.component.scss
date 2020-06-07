@@ -1,4 +1,4 @@
-.deleteButton {
+.button {
   width: 10px;
   height: 20px;
   line-height: 20px;
@@ -24,6 +24,7 @@
   background-color: #ff726f;
 }
 
+
 // .container {
 //   width: 1000px;
 //   height: 800px;
@@ -43,3 +44,9 @@
 //   background-size: cover;
 
 // }
+
+.name {
+  text-align: center;
+  font-size: 90px;
+  padding: 20px
+}

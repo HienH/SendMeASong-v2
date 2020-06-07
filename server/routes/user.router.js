@@ -8,25 +8,25 @@ const auth = require('../middleware/auth')
 const verifyToken = require('../middleware/verifyToken');
 
 
-// add user 
+// add playlist
 router.post('/register', userController.register);
 
-// user login
+// playlist login
 router.post('/login', userController.login);
 
-// user logout
+// playlist logout
 router.get('/logout', userController.logout);
 
 // get all users
 router.get('/users', userController.getAllUsers);
 
-// get other user songs
+// get other playlist songs
 router.get('/otherUser/:username', userController.getOtherUserSong);
 
-// get user songs
-router.get('/user', verifyToken.verifyToken, userController.getUser);
+// get playlist songs
+router.get('/playlist', verifyToken.verifyToken, userController.getUser);
 
-// get user info
+// get playlist info
 router.post('/addFriendSongs', userController.saveFriendSongs);
 
 
@@ -42,10 +42,10 @@ router.post('/addFriendSongs', userController.saveFriendSongs);
 
 
 
-// get user friends playlist
+// get playlist friends playlist
 // router.get('/friendsPlaylist', verifyToken.verifyToken, userController.getFriendPlaylist);
 
-// //get all user songs
+// //get all playlist songs
 // router.get('/:userId', (async (req, res) => {
 //   const { userId } = req.params;
 //   User.findById(userId).populate('songs')

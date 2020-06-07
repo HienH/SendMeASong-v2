@@ -5,7 +5,6 @@ const request = require('request-promise');
 var ObjectID = require('mongodb').ObjectID;
 
 module.exports.refreshSpotify = async (req, res, next) => {
-
     const userID = new ObjectID(res.locals.userId);
     User.findById(userID).then(us => {
         const headers = {

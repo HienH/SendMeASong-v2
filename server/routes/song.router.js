@@ -7,10 +7,10 @@ const songController = require('../controllers/songController')
 const auth = require('../middleware/auth');
 const verify = require('../middleware/verifyToken')
 
-// // Add song to user
+// // Add song to playlist
 router.post('/add', verify.verifyToken, songController.addSong);
 
-// get user all songs
+// get playlist all songs
 router.get('', verify.verifyToken, songController.getSong);
 
 // delete a song

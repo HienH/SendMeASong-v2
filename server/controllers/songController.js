@@ -39,11 +39,11 @@ module.exports.deleteSong = async (req, res) => {
 }
 
 
-    // console.log(user.songs);
-    // await user.save();
+    // console.log(playlist.songs);
+    // await playlist.save();
     // res.status(200).json('Song del');
 
-    // user.songs.findOneAndDelete(songId);
-    // await user.save();
+    // playlist.songs.findOneAndDelete(songId);
+    // await playlist.save();
     // res.status(200).json('Song deleted');
 
