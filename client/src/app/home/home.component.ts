@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
     @ViewChild('x', { static: false }) x: ElementRef;
     ultimatePlaylist = []
     friendsPlaylist = []
+    historyPlaylist = [];
     songForm: FormGroup;
     submitted: boolean;
     success: boolean;
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit {
                 console.log(res);
                 this.user = res['user']['username']
                 this.friendsPlaylist = res['user']['friendSongs'];
+                this.historyPlaylist = res['user']['playlistHistory']
                 this.formId = res['user']['formId']
             },
             (err) => {

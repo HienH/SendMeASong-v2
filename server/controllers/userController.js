@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports.getUser = (req, res) => {
     const user = new ObjectID(res.locals.userId);
-    User.findById(user).populate('songs').populate('friendSongs')
+    User.findById(user).populate('songs').populate('friendSongs').populate('playlistHistory')
         .then(user => res.status(200).json({
             user: user
         }))

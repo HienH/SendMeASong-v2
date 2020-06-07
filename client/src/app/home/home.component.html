@@ -60,6 +60,20 @@
 
       </div>
 
+      <div class="col-6">
+        <div *ngIf="historyPlaylist.length> 0">
+          <h3>History Playlist Added</h3>
+          <li *ngFor="let history of historyPlaylist" (click)="openUser(history)">
+            {{history.name}}
+          </li>
+        </div>
+
+        <div *ngIf="historyPlaylist.length == 0">
+          <p>You currently have no history playlist</p>
+        </div>
+
+      </div>
+
 
     </div>
   </div>
