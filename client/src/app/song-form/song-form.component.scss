@@ -1,3 +1,221 @@
+////////////////// Background ///////////////////////////////
+@-webkit-keyframes STAR-MOVE {
+  from {
+    background-position: 5% 5%
+  }
+
+  to {
+    background-position: 1300% 600%
+  }
+}
+
+#background {
+  background: black url(../../assets/background2.jpg) repeat 5% 5%;
+  width: 100%;
+  position: absolute;
+  opacity: 0.8;
+  //   background-size: cover;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+
+  -webkit-animation-name: STAR-MOVE;
+  -webkit-animation-duration: 250s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+
+#midground {
+  background: url(../../assets/midground.png) repeat 20% 20%;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+
+  -webkit-animation-name: STAR-MOVE;
+  -webkit-animation-duration: 150s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+#page-wrap {
+  //   height: 900px;
+  //   width: 800px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 300;
+  background: balck;
+  overflow: hidden;
+}
+
+.frame {
+  background: white url(../../assets/whiteFrame.png) repeat 5% 5%;
+  background-repeat: no-repeat;
+  background-size: 570px 800px;
+  height: 800px;
+  width: 570px;
+  margin-top: 60px;
+}
+
+////////////////// Logo ///////////////////////////////
+
+.logo h1 {
+  padding-top: 45px;
+  font-family: "Sacramento", Times, serif;
+  font-size: 65px;
+  text-align: center;
+  font-weight: 450;
+  color: black;
+  text-shadow: 0 0 5px white,
+    0 0 10px black,
+    0 0 20px white,
+    0 0 40px black,
+    0 0 80px black,
+    0 0 90px black,
+    0 0 100px white,
+    0 0 150px black;
+  bottom: 35px;
+  margin-left: 30px;
+  position: absolute;
+}
+
+.logo .heart {
+  color: #bd0a06;
+  text-shadow: 0 0 5px white,
+    0 0 10px #bd0a06,
+    0 0 20px white,
+    0 0 40px #bd0a06,
+    0 0 80px #bd0a06,
+    0 0 90px #bd0a06,
+    0 0 100px #bd0a06,
+    0 0 150px#bd0a06;
+}
+
+////////////////// Text ///////////////////////////////
+
+.css-typing p {
+  border-right: .15em solid orange;
+  font-family: 'Give You Glory', cursive;
+  font-size: 19px;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-left: 40px;
+
+}
+
+.css-typing .third {
+  width: 3em;
+  opacity: 0;
+  -webkit-animation: type2 0.5s steps(10, end);
+  animation: type2 0.5s steps(10, end);
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+
+.css-typing .first {
+  width: 22em;
+  opacity: 0;
+  -webkit-animation: type2 1s steps(40, end);
+  animation: type2 1s steps(40, end);
+  -webkit-animation-delay: 2s;
+  animation-delay: 1s;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+
+.css-typing .second {
+  width: 18em;
+  opacity: 0;
+  -webkit-animation: type2 1s steps(40, end);
+  animation: type2 1s steps(40, end);
+  -webkit-animation-delay: 3s;
+  animation-delay: 2s;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+
+@keyframes type2 {
+  0% {
+    width: 0;
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  99.9% {
+    border-right: .15em solid orange;
+  }
+
+  100% {
+    opacity: 1;
+    border: none;
+  }
+}
+
+@-webkit-keyframes type2 {
+  0% {
+    width: 0;
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  99.9% {
+    border-right: .15em solid orange;
+  }
+
+  100% {
+    opacity: 1;
+    border: none;
+  }
+}
+
+.center {
+  text-align: center;
+  margin: auto;
+}
+
+.red {
+  background-color: #bd0a06;
+}
+
+////// Form ///////////////
+.inlineStyle {
+  display: inline-block;
+  padding: 3px;
+
+}
+
+.marginLeft50 {
+  margin-left: 50px;
+}
+
+.alert {
+  color: #bd0a06;
+  font-size: 12px;
+  padding: 0px;
+  margin-top: 2px;
+}
+
+.row1 {
+  height: 100px;
+}
+
+.col1 {
+  //   background-color: green;
+  padding-top: 85px;
+  padding-left: 22px;
+}
+
 .deleteButton {
   width: 10px;
   height: 20px;
@@ -7,4 +225,27 @@
   margin: 5px;
   min-width: 20px !important;
   background-color: #ff726f;
+}
+
+.inline {
+  display: inline;
+  margin: 3px;
+}
+
+.maxSize {
+  max-height: 460px;
+}
+
+
+////// Sent /////////@at-root
+
+.sentFont {
+  font-family: "Sacramento", Times, serif;
+  font-size: 55px;
+  padding-top: 180px;
+}
+
+.imageSize {
+  height: 120px;
+
 }

@@ -16,6 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SongFormComponent } from './song-form/song-form.component';
+import { HistoryComponent } from './home/history/history.component';
+import { SentPlaylistComponent } from './home/sent-playlist/sent-playlist.component';
+
 
 @NgModule({
     declarations: [
@@ -23,6 +26,8 @@ import { SongFormComponent } from './song-form/song-form.component';
         routingComponents,
         PlaylistComponent,
         SongFormComponent,
+        HistoryComponent,
+        SentPlaylistComponent,
     ],
     imports: [
         BrowserModule,
@@ -34,8 +39,12 @@ import { SongFormComponent } from './song-form/song-form.component';
         HttpClientModule,
         MatButtonModule,
         MatDialogModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
 
+    ],
+    entryComponents: [
+        HistoryComponent,
+        SentPlaylistComponent,
     ],
     providers: [AuthGuardService, {
         provide: HTTP_INTERCEPTORS,

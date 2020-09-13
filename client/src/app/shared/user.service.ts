@@ -19,6 +19,7 @@ export class UserService {
     loginUser(user: User) {
         return this.http.post(environment.apiBaseUrl + 'playlist/login', user);
     }
+
     logoutUser() {
         localStorage.setItem('token', '');
         return this.http.get(environment.apiBaseUrl + 'playlist/logout')
@@ -34,7 +35,7 @@ export class UserService {
     }
 
     getUser() {
-        return this.http.get(environment.apiBaseUrl + 'playlist/playlist')
+        return this.http.get(environment.apiBaseUrl + 'user/info')
     }
 
     getSongs() {
@@ -49,16 +50,16 @@ export class UserService {
         return this.http.post(environment.apiBaseUrl + 'song/add', newSong);
     }
 
-    createPlaylist() {
-        return this.http.get(environment.apiBaseUrl + 'spotify/createPlaylist');
+    createPlaylist(code) {
+        return this.http.post(environment.apiBaseUrl + 'spotify/createPlaylist', { code: code });
     }
 
-    getOtherUserSong(username) {
-        return this.http.get(environment.apiBaseUrl + 'playlist/otherUser/' + username);
-    }
+    // getOtherUserSong(username) {
+    //     return this.http.get(environment.apiBaseUrl + 'playlist/otherUser/' + username);
+    // }
 
     sendFriendPlaylist(newSongForm: SongForm) {
-        return this.http.post(environment.apiBaseUrl + 'playlist/addFriendSongs', newSongForm)
+        return this.http.post(environment.apiBaseUrl + 'user/addFriendSongs', newSongForm)
     }
 
     addToPlaylist(songs) {

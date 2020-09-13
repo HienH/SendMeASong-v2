@@ -1,0 +1,15 @@
+<h2>Sent Playlist</h2>
+
+<div class="modal-body">
+  <div *ngIf="friendsPlaylist.length> 0">
+    <li *ngFor="let friendPlaylist of friendsPlaylist" (click)="openUser(friendPlaylist)">
+      {{friendPlaylist.name}}
+    </li>
+  </div>
+</div>
+<div *ngIf="friendsPlaylist.length == 0">
+  <p>You currently have no friends playlist</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

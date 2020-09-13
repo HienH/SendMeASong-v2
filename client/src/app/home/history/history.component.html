@@ -1,0 +1,12 @@
+<h2>Added Playlist History</h2>
+
+<div class="modal-body">
+  <div *ngIf="history.length> 0">
+    <li *ngFor="let historyPlaylist of history" (click)="openUser(historyPlaylist)">
+      {{historyPlaylist.name}}
+    </li>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

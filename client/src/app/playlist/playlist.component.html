@@ -1,16 +1,20 @@
-<!--Main Layout-->
-<div class="row text-center">
-  <div class="col">
-    <h3> {{name}} Playlist</h3>
-
-  </div>
-</div>
-<div class="row">
-  <div class="col-12">
-    <div *ngIf="songs.length> 0">
-      <li *ngFor="let song of songs">
-        {{song.song}} - {{song.artist}}
-      </li>
+<div id="background"></div>
+<div id="midground"></div>
+<div id="foreground"></div>
+<div id="page-wrap">
+  <div class="row text-center">
+    <div class="col">
+      <h3> {{name}} Playlist</h3>
     </div>
   </div>
+  <div class="row">
+    <div class="col-12">
+      <div *ngIf="songs.length> 0">
+        <li *ngFor="let song of songs">
+          {{song.song}} - {{song.artist}}
+        </li>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-danger" (click)="addSongs()">Add Playlist</button>
 </div>

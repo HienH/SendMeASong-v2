@@ -17,29 +17,17 @@ router.post('/login', userController.login);
 // playlist logout
 router.get('/logout', userController.logout);
 
-// get all users
-router.get('/users', userController.getAllUsers);
+// // get all users
+// router.get('/users', userController.getAllUsers);
 
-// get other playlist songs
-router.get('/otherUser/:username', userController.getOtherUserSong);
+// // get other playlist songs
+// router.get('/otherUser/:username', userController.getOtherUserSong);
 
-// get playlist songs
-router.get('/playlist', verifyToken.verifyToken, userController.getUser);
+// get user details
+router.get('/info', verifyToken.verifyToken, userController.getUser);
 
-// get playlist info
+// add friends playlist
 router.post('/addFriendSongs', userController.saveFriendSongs);
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // get playlist friends playlist

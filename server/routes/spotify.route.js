@@ -8,7 +8,7 @@ const verifyToken = require('../middleware/verifyToken');
 const refreshSpotify = require('../middleware/refreshSpotify');
 
 // create playllist
-router.get('/createPlaylist', verifyToken.verifyToken, spotifyController.createSpotifyPlaylist);
+router.post('/createPlaylist', verifyToken.verifyToken, spotifyController.createSpotifyPlaylist);
 
 // add song
 router.post('/addToPlaylist', verifyToken.verifyToken, refreshSpotify.refreshSpotify, spotifyController.addSong);

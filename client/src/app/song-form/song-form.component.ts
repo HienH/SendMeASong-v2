@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../shared/user.service';
-
 import { Router } from '@angular/router';
 import { SongForm } from './song-form.model';
 
@@ -15,23 +14,26 @@ export class SongFormComponent implements OnInit {
     smasForm: FormGroup;
     songs: object[] = [];
     submitted: boolean;
-    addSong: boolean
+    success: boolean;
+    addSong: boolean;
+    nameField: boolean;
     name: string;
     url: string;
     formId: number;
-
-
+    username: string;
 
     constructor(private router: Router, private userService: UserService, ) { }
 
     ngOnInit() {
         this.url = this.router.url;
-        this.getFormId();
+        this.getUserDetails();
         this.createForm()
+        this.showNameInput();
     }
 
-    getFormId() {
+    getUserDetails() {
         var splitUrl = this.url.split('/');
+        this.username = splitUrl[splitUrl.length - 2]
         this.formId = parseInt(splitUrl[splitUrl.length - 1])
     }
 
@@ -45,11 +47,13 @@ export class SongFormComponent implements OnInit {
     // convient getter access form control
     get f() { return this.smasForm.controls; }
 
-    add() {
+    addToPlaylist() {
         this.addSong = true;
         if (this.smasForm.valid) {
-            let song = { ...this.smasForm.value };
             this.songs.push(this.smasForm.value);
+            console.log(this.smasForm.value)
+            this.addSong = false;
+            this.smasForm.reset()
         }
     }
 
@@ -58,25 +62,30 @@ export class SongFormComponent implements OnInit {
         console.log(this.songs)
     }
 
-    submit() {
+    sendPlaylist() {
         this.submitted = true;
-
-        if (this.songs.length >= 2) {
-            const friendPlaylist = {
-                formId: this.formId,
-                name: this.name,
-                songs: this.songs
-            };
-            this.userService.sendFriendPlaylist(friendPlaylist).subscribe(
-                (res) => {
-                    console.log(res)
-                }, (err) => {
-                    console.log(err)
-                });
-
-
-
-        }
+        // if (this.songs.length >= 2) {
+        const friendPlaylist = {
+            formId: this.formId,
+            name: this.name,
+            songs: this.songs
+        };
+        this.success = true;
+        this.userService.sendFriendPlaylist(friendPlaylist).subscribe(
+            (res) => {
+                console.log(res)
+            }, (err) => {
+                console.log(err)
+            });
+        // }
     }
+
+    showNameInput() {
+        setTimeout(() => {
+            document.getElementById("nameField").style.visibility = "visible";
+        }, 4000);
+    }
+
+
 
 }

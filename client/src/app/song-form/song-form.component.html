@@ -1,50 +1,111 @@
-<div class="container">
-  <h1>Hello</h1>
+<body>
+  <div id="background"></div>
+  <div id="midground"></div>
+  <div id="page-wrap">
 
+    <div class="frame container">
+      <div *ngIf="!submitted && !success">
+        <div class="row col1">
+          <div class="css-typing">
+            <p class="third">Hey,</p>
+            <p class="first">Im looking for new songs, can you recommend me </p>
+            <p class="second"> some of your current favourite tracks.</p>
+          </div>
+        </div>
 
-  <input [(ngModel)]="name" #ctrl="ngModel" class="form-control mb-4" placeholder="Name">
-  <div *ngIf="submitted && name==undefined " class="alert alert-danger">
-    Please enter your name
+        <div class="row">
+          <div class="col-8 marginLeft50">
+            <input id="nameField" style="visibility: hidden" [(ngModel)]="name" #ctrl="ngModel"
+              class="form-control mb-4 ml-10" placeholder="What is your name? ">
+          </div>
+        </div>
+        <div *ngIf="name">
+          <div class="row">
+            <div class="col-12 center">
+              <h5 class="font"> <b>{{name}}</b>'s Reccomended Playlist</h5>
+            </div>
+          </div>
+          <div class="row marginLeft50 maxSize">
+            <form [formGroup]="smasForm" (ngSubmit)="addToPlaylist(smasForm.value)">
+              <div class="col-5 inlineStyle">
+                <div class="form-group">
+                  <input formControlName="song" class="form-control" placeholder="Song" />
+                  <div *ngIf="addSong && f.song.invalid" class="alert alert-danger">
+                    <div *ngIf="f.song.errors.required">
+                      Please enter a song
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-5 inlineStyle">
+                <div class="form-group">
+                  <input formControlName="artist" class="form-control" placeholder="Artist" />
+                  <div *ngIf="addSong && f.artist.invalid " class="alert alert-danger">
+                    <div *ngIf="f.artist.errors.required">
+                      Please enter the artist
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2 inlineStyle">
+                <button type="button" class="btn btn-success" [disabled]="songs.length > 4" placement="top"
+                  type="submit">Add</button>
 
-  </div>
+                <ng-template #disableToolTip>
+                  Maxium of 10 song reach
+                </ng-template>
 
+              </div>
+            </form>
+          </div>
+          <div class="row marginLeft50">
+            <div *ngIf="songs.length> 0">
+              <!-- <h5>Current Favourite List</h5> -->
 
-  <form [formGroup]="smasForm" (ngSubmit)="add(smasForm.value)">
-    <h1> What's your Favourite Song? </h1>
-    <!---Song-->
-    <div class="form-group">
-      <input formControlName="song" class="form-control mb-4" placeholder="Song" />
-      <div *ngIf="addSong && f.song.invalid " class="alert alert-danger">
-        <div *ngIf="f.song.errors.required">
-          Please enter a song
+              <div class="col-11">
+                <li *ngFor="let song of songs; let i = index" class="inline">
+                  <span class="badge badge-light mb-1">{{song.song}} - {{song.artist}} <button id="deleteButton"
+                      (click)="deleteSong(index)" class="deleteButton" mat-raised-button>x</button></span>
+                </li>
+              </div>
+
+            </div>
+          </div>
+          <div class="row marginLeft50">
+            <div class="col-10">
+              <button class="btn btn-danger" (click)="sendPlaylist()">Send Playlist</button>
+              <div *ngIf="songs.length > 4 " class="alert alert-danger">
+                Maximum number of song reached, please submit your songs
+              </div>
+
+              <div *ngIf="submitted && songs.length < 2 " class="alert alert-danger">
+                Please enter 2 Songs or more
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!---Artist-->
-    <div class="form-group">
-      <input formControlName="artist" class="form-control mb-4" placeholder="Artist" />
-      <div *ngIf="addSong && f.artist.invalid " class="alert alert-danger">
-        <div *ngIf="f.artist.errors.required">
-          Please enter the artist
+      <div *ngIf="submitted && success">
+        <div class="row">
+          <div class="col-12 center">
+            <h2 class="sentFont"> <b>{{name}}</b>'s Playlist Sent</h2>
+          </div>
+
+          <button class="btn btn-danger" (click)="sendPlaylist()">S </button>
+
+        </div>
+        <div class="row">
+          <img class="center imageSize" src="../../assets/mail.png">
         </div>
       </div>
+
+      <div class="row3">
+        <div class="logo">
+          <h1>Send Me a Song <span class="heart">♡</span> </h1>
+        </div>
+
+      </div>
     </div>
-    <button class="btn btn-info my-4 btn-block" type="submit">Add Song</button>
-  </form>
-
-  <div *ngIf="songs.length> 0">
-    <h2>Current Favourite List</h2>
-
-    <li *ngFor="let song of songs; let i = index">
-      {{song.song}} - {{song.artist}}
-      <button id="deleteButton" (click)="deleteSong(index)" class="deleteButton" mat-raised-button>x</button>
-    </li>
-
-    <button class="btn btn-warning" (click)="submit()">Submit Song</button>
-    <div *ngIf="submitted && songs.length < 2 " class="alert alert-danger">
-      Please enter more than 2 Songs
-    </div>
-
   </div>
-</div>
+</body>

@@ -1,3 +1,21 @@
+.logo {
+  font-family: "Sacramento", Times, serif;
+  font-size: 65px;
+  text-align: center;
+  font-weight: 450;
+  color: black;
+  text-shadow: 0 0 5px white,
+    0 0 10px black,
+    0 0 20px white,
+    0 0 40px black,
+    0 0 80px black,
+    0 0 90px black,
+    0 0 100px white,
+    0 0 150px black;
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+
 .eyeButton {
   text-align: left;
   padding: 0px;

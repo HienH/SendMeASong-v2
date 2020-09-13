@@ -27,7 +27,7 @@ const userRouter = require('./routes/user.router');
 const songRouter = require('./routes/song.router');
 const spotifyRouter = require('./routes/spotify.route');
 
-app.use('/playlist', userRouter);
+app.use('/user', userRouter);
 app.use('/song', songRouter);
 app.use('/spotify', spotifyRouter);
 

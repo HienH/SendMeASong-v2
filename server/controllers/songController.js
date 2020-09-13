@@ -15,7 +15,6 @@ module.exports.addSong = async (req, res) => {
     user.songs.push(newSong);
     await user.save();
     res.status(200).json('Song added');
-
 };
 
 module.exports.getSong = (req, res) => {

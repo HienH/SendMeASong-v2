@@ -1,19 +1,18 @@
 const request = require('request-promise');
 const { User } = require('../models/user.model');
 const ObjectID = require('mongodb').ObjectID;
-var querystring = require('querystring');
+
 
 module.exports.createSpotifyPlaylist = (async (req, res) => {
+
     const userId = new ObjectID(res.locals.userId);
     const user = await User.findById(userId);
     let spotifytoken;
     let refreshToken;
 
     function getSpotifyToken() {
-        const url = req.headers.referer;
-        // get spotify code needed for accces token
-        const splitUrl = url.indexOf('=');
-        const spotifyCode = url.slice(splitUrl + 1);
+
+        const spotifyCode = req.body.code
 
         const headers = {
             'Authorization': 'Basic MTY3ZTBiZGM1MWEyNDFjOWExYzc4MWIwZjhjM2RmN2Y6YWI4MWY4MTA3NDk3NDkwOThlNTExYTU0ZjA2OGIxNTU=',
@@ -96,23 +95,24 @@ module.exports.createSpotifyPlaylist = (async (req, res) => {
 });
 
 module.exports.addSong = (async (req, res) => {
+
     const spotifyToken = res.locals.spotifyAccessToken
     const userId = new ObjectID(res.locals.userId);
     const user = await User.findById(userId);
     const playlistId = user.spotifyPlaylistId;
     const friendPlaylist = req.body;
-    const songs = friendPlaylist.songs;
 
     const headers = {
         'Authorization': 'Bearer ' + spotifyToken,
         'Accept': 'application/json',
     };
 
-    const result = await songs.map(async (song) => {
+    const result = await friendPlaylist.map(async (song) => {
         const songName = song.song
-        const trackId = await getSongId(song.song, song.artist)
+        const trackId = await getSongId(songName, song.artist)
         const jsonObj = JSON.parse(trackId)
         const id = jsonObj["tracks"]["items"][0]["id"];
+        console.log(id)
         return { songName, id };
     });
 

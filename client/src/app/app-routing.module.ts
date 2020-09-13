@@ -13,7 +13,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'playlist/:username', component: PlaylistComponent },
     { path: 'songForm', component: SongFormComponent },
-    { path: 'songForm/:id', component: SongFormComponent },
+    { path: 'songForm/:username/:id', component: SongFormComponent },
     {
         path: 'home', component: HomeComponent,
         canActivate: [AuthGuardService]

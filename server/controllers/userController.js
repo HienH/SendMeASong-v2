@@ -78,6 +78,7 @@ module.exports.login = (req, res) => {
 }
 
 module.exports.saveFriendSongs = async (req, res) => {
+    console.log('here')
     const id = req.body.formId
 
     const name = req.body.name;
@@ -88,6 +89,7 @@ module.exports.saveFriendSongs = async (req, res) => {
     });
 
     const user = await User.findOne({ 'formId': id });
+    console.log(user)
 
     await newFriendSongs.save();
     user.friendSongs.push(newFriendSongs);

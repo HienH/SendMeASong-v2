@@ -12,14 +12,19 @@ export class PlaylistComponent implements OnInit {
     name: string;
     songs: []
     constructor(private dialog: MatDialog, private userService: UserService, @Inject(MAT_DIALOG_DATA) data: any) {
-        console.log(data)
-        this.name = data['user']['name'];
-        this.songs = data['user']['songs']
+        this.name = data['name'];
+        this.songs = data['songs']
     }
 
     ngOnInit() {
     }
 
-
-
+    addSongs() {
+        this.userService.addToPlaylist(this.songs).subscribe(
+            (res) => {
+                console.log(res)
+            }, (err) => {
+                console.log(err)
+            });
+    }
 }

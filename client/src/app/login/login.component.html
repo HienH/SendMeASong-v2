@@ -1,3 +1,5 @@
+<h1 class="logo"> Send Me A Song</h1>
+
 <div class="container">
   <!--fail login message -->
   <div *ngIf="!success && validMessage" #alert class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -52,23 +54,6 @@
     <p>Not a member?
       <a routerLink="/register">Register</a>
     </p>
-
-    <!-- Social login -->
-    <p>or sign in with:</p>
-
-    <a type="button" class="light-blue-text mx-2">
-      <mdb-icon fab icon="facebook"></mdb-icon>
-    </a>
-    <a type="button" class="light-blue-text mx-2">
-      <mdb-icon fab icon="twitter"></mdb-icon>
-    </a>
-    <a type="button" class="light-blue-text mx-2">
-      <mdb-icon fab icon="linkedin"></mdb-icon>
-    </a>
-    <a type="button" class="light-blue-text mx-2">
-      <mdb-icon fab icon="github"></mdb-icon>
-    </a>
-
   </form>
   <!-- Default form login -->
 </div>

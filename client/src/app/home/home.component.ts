@@ -4,6 +4,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { PlaylistComponent } from '../playlist/playlist.component';
+import { HistoryComponent } from './history/history.component';
+import { SentPlaylistComponent } from './sent-playlist/sent-playlist.component';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -14,7 +16,6 @@ import { environment } from '../../environments/environment';
 export class HomeComponent implements OnInit {
     @ViewChild('alert', { static: false }) alert: ElementRef;
     @ViewChild('x', { static: false }) x: ElementRef;
-    ultimatePlaylist = []
     friendsPlaylist = []
     historyPlaylist = [];
     songForm: FormGroup;
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
     code: string;
     connectedToSpotify: boolean;
     formId: number
+    isCollapsed = false;
 
     constructor(private userService: UserService, private router: Router, private dialog: MatDialog) { }
 
@@ -34,8 +36,9 @@ export class HomeComponent implements OnInit {
         this.submitted = false;
         this.success = false;
         this.userService.getUser().subscribe(
+
             (res) => {
-                console.log(res);
+                console.log(res)
                 this.user = res['user']['username']
                 this.friendsPlaylist = res['user']['friendSongs'];
                 this.historyPlaylist = res['user']['playlistHistory']
@@ -129,13 +132,15 @@ export class HomeComponent implements OnInit {
 
     createSpotify() {
         let url = window.location.href;
+        console.log(url)
         let urlSplit = url.indexOf('=');
         let code = url.slice(urlSplit + 1);
+        console.log(code)
         this.getSpotifyToken(code);
     }
 
     getSpotifyToken(code) {
-        this.userService.createPlaylist().subscribe(
+        this.userService.createPlaylist(code).subscribe(
             (res) => {
                 console.log(res);
             },
@@ -162,11 +167,10 @@ export class HomeComponent implements OnInit {
                 console.log(err);
             }
         )
-
     }
 
     genForm() {
-        const url = this.router.serializeUrl(this.router.createUrlTree(['/songForm/' + this.formId]));
+        const url = this.router.serializeUrl(this.router.createUrlTree([`/songForm/${this.user}/` + this.formId]));
         window.open(url, '_blank');
     }
 
@@ -174,4 +178,19 @@ export class HomeComponent implements OnInit {
         this.connectedToSpotify = true;
     }
 
+    openHistory() {
+        const config = {
+            data: this.historyPlaylist,
+            width: '600px',
+        };
+        this.dialog.open(HistoryComponent, config)
+    }
+
+    openSentPlaylist() {
+        const config = {
+            data: this.friendsPlaylist,
+            width: '600px',
+        };
+        this.dialog.open(SentPlaylistComponent, config)
+    }
 }
