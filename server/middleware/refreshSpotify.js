@@ -11,7 +11,6 @@ module.exports.refreshSpotify = async (req, res, next) => {
             'Authorization': 'Basic MTY3ZTBiZGM1MWEyNDFjOWExYzc4MWIwZjhjM2RmN2Y6YWI4MWY4MTA3NDk3NDkwOThlNTExYTU0ZjA2OGIxNTU=',
             'Content-Type': 'application/x-www-form-urlencoded',
         }
-
         const body = {
             "grant_type": "refresh_token",
             "refresh_token": us.spotifytoken,
