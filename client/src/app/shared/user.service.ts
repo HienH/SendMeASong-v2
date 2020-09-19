@@ -58,10 +58,6 @@ export class UserService {
     //     return this.http.get(environment.apiBaseUrl + 'playlist/otherUser/' + username);
     // }
 
-    sendFriendPlaylist(newSongForm: SongForm) {
-        return this.http.post(environment.apiBaseUrl + 'user/addFriendSongs', newSongForm)
-    }
-
     addToPlaylist(songs) {
         return this.http.post(environment.apiBaseUrl + 'spotify/addToPlaylist', songs);
     }

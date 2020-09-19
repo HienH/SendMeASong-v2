@@ -111,6 +111,7 @@ module.exports.addSong = (async (req, res) => {
         const songName = song.song
         const trackId = await getSongId(songName, song.artist)
         const jsonObj = JSON.parse(trackId)
+        console.log(jsonObj)
         const id = jsonObj["tracks"]["items"][0]["id"];
         console.log(id)
         return { songName, id };
@@ -149,15 +150,15 @@ module.exports.addSong = (async (req, res) => {
         return request(addToPlaylist);
     }
 
-    async function saveToSongHistory() {
-        try {
-            user.playlistHistory.push(friendPlaylist);
-            user.friendSongs.pull(friendPlaylist)
-            user.save();
-        } catch (e) {
-            console.log(e)
-        }
-    }
+    // async function saveToSongHistory() {
+    //     try {
+    //         user.playlistHistory.push(friendPlaylist);
+    //         user.friendSongs.pull(friendPlaylist)
+    //         user.save();
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
 
     function getSongId(unCodedSong, unCodedArtist) {
 

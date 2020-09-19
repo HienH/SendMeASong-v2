@@ -64,20 +64,16 @@ export class SongFormComponent implements OnInit {
 
     sendPlaylist() {
         this.submitted = true;
-        // if (this.songs.length >= 2) {
-        const friendPlaylist = {
-            formId: this.formId,
-            name: this.name,
-            songs: this.songs
-        };
+
         this.success = true;
-        this.userService.sendFriendPlaylist(friendPlaylist).subscribe(
-            (res) => {
-                console.log(res)
-            }, (err) => {
-                console.log(err)
-            });
-        // }
+        console.log(this.songs)
+        // this.userService.addSong(this.songs).subscribe(
+        //     (res) => {
+        //         console.log(res)
+        //     }, (err) => {
+        //         console.log(err)
+        //     });
+
     }
 
     showNameInput() {
