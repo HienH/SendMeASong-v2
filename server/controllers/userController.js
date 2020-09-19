@@ -52,6 +52,7 @@ module.exports.register = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
+    console.log('inhere')
     // Find email
     User.findOne({ 'email': req.body.email }, (err, user) => {
         if (!user) return res.json({
@@ -60,7 +61,7 @@ module.exports.login = (req, res) => {
         })
 
         user.comparePassword(req.body.password, (err, isMatch) => {
-            if (!isMatch) return res.json({
+            if (!isMatch) return res.status(404).json({
                 message: "wrong password",
                 token: "no token"
             });

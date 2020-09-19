@@ -13,16 +13,16 @@ export class UserService {
 
     }
     registerUser(user: User) {
-        return this.http.post(environment.apiBaseUrl + 'playlist/register', user);
+        return this.http.post(environment.apiBaseUrl + 'user/register', user);
     }
 
     loginUser(user: User) {
-        return this.http.post(environment.apiBaseUrl + 'playlist/login', user);
+        return this.http.post(environment.apiBaseUrl + 'user/login', user);
     }
 
     logoutUser() {
         localStorage.setItem('token', '');
-        return this.http.get(environment.apiBaseUrl + 'playlist/logout')
+        return this.http.get(environment.apiBaseUrl + 'user/logout')
     }
 
     isLoggedIn() {
