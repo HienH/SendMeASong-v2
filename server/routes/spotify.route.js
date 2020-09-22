@@ -11,6 +11,6 @@ const refreshSpotify = require('../middleware/refreshSpotify');
 router.post('/createPlaylist', verifyToken.verifyToken, spotifyController.createSpotifyPlaylist);
 
 // add song
-router.post('/addToPlaylist', verifyToken.verifyToken, refreshSpotify.refreshSpotify, spotifyController.addSong);
+router.post('/addToPlaylist', refreshSpotify.refreshSpotify, spotifyController.addSong);
 
 module.exports = router;

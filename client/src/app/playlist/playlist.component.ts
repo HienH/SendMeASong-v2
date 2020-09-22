@@ -19,12 +19,12 @@ export class PlaylistComponent implements OnInit {
     ngOnInit() {
     }
 
-    addSongs() {
-        this.userService.addToPlaylist(this.songs).subscribe(
-            (res) => {
-                console.log(res)
-            }, (err) => {
-                console.log(err)
-            });
-    }
+    // addSongs() {
+    //     this.userService.addToPlaylist(this.songs, ).subscribe(
+    //         (res) => {
+    //             console.log(res)
+    //         }, (err) => {
+    //             console.log(err)
+    //         });
+    // }
 }

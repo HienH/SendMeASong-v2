@@ -9,7 +9,10 @@ require('dotenv').config();
 
 const userSchema = mongoose.Schema({
     formId: {
-        type: Number,
+        type: String,
+        require: true,
+        unique: 1,
+
     },
     email: {
         type: String,
@@ -54,11 +57,11 @@ userSchema.pre('save', async function (next) {
         try {
             const salt = await bcrypt.genSalt(10);
             const hash = await bcrypt.hash(this.password, salt);
-            this.password = hash
-            next()
+            this.password = hash;
+            next();
 
         } catch (err) {
-            next(err)
+            next(err);
         }
     }
 });
@@ -70,7 +73,9 @@ userSchema.methods.comparePassword = function (enteredPassword, cb) {
     })
 };
 
-
+userSchema.methods.getSpotifyToken = function () {
+    return this.spotifytoken
+};
 
 userSchema.methods.generateToken = function (cb) {
     let user = this;
@@ -82,7 +87,6 @@ userSchema.methods.generateToken = function (cb) {
         if (err) return cb(err);
         cb(null, user);
     })
-
 }
 
 userSchema.statics.findByToken = function (token, cb) {
@@ -96,7 +100,7 @@ userSchema.statics.findByToken = function (token, cb) {
     })
 }
 
-userSchema.plugin(AutoIncrement, { id: 'order_seq', inc_field: 'formId' });
+// userSchema.plugin(AutoIncrement, { id: 'order_seq', inc_field: 'formId' });
 const User = mongoose.model('User', userSchema);
 
 module.exports = { User }

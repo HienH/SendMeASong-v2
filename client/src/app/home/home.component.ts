@@ -159,7 +159,7 @@ export class HomeComponent implements OnInit {
     }
 
     addSongs(playlistSongs) {
-        this.userService.addToPlaylist(playlistSongs).subscribe(
+        this.userService.addToPlaylist(playlistSongs, this.formId).subscribe(
             (res) => {
                 console.log(res);
             },

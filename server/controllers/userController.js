@@ -1,5 +1,6 @@
 const { User } = require('./../models/user.model');
 const { friendSongs } = require('../models/friendSongs.model');
+const uuid = require('uuid').v4;
 
 var ObjectID = require('mongodb').ObjectID;
 const jwt = require('jsonwebtoken');
@@ -23,6 +24,7 @@ module.exports.register = (req, res) => {
     newUser.email = req.body.email;
     newUser.password = req.body.password;
     newUser.username = req.body.username;
+    newUser.formId = uuid();
 
     User.findOne({ 'email': req.body.email }, (err, user) => {
         if (!user) {
@@ -34,6 +36,7 @@ module.exports.register = (req, res) => {
                     })
                 }
                 else {
+                    console.log(newUser);
                     res.status(200).json({
                         succuss: true,
                         userData: doc
@@ -43,7 +46,7 @@ module.exports.register = (req, res) => {
         }
         else {
             res.status(409).json({
-                message: "playlist already exist",
+                message: "Email name already exist",
                 sucess: false
             })
         }

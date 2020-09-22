@@ -58,8 +58,12 @@ export class UserService {
     //     return this.http.get(environment.apiBaseUrl + 'playlist/otherUser/' + username);
     // }
 
-    addToPlaylist(songs) {
-        return this.http.post(environment.apiBaseUrl + 'spotify/addToPlaylist', songs);
+    addToPlaylist(songs, formId) {
+        return this.http.post(environment.apiBaseUrl + 'spotify/addToPlaylist?formId=' + formId, songs);
     }
+
+    // addToSpotifyPlaylist(songs) {
+    //     return this.http.post(environment.apiBaseUrl + 'spotify/addToPlaylist', songs);
+    // }
 
 }

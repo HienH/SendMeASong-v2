@@ -67,12 +67,12 @@ export class SongFormComponent implements OnInit {
 
         this.success = true;
         console.log(this.songs)
-        // this.userService.addSong(this.songs).subscribe(
-        //     (res) => {
-        //         console.log(res)
-        //     }, (err) => {
-        //         console.log(err)
-        //     });
+        this.userService.addToPlaylist(this.songs, this.formId).subscribe(
+            (res) => {
+                console.log(res)
+            }, (err) => {
+                console.log(err)
+            });
 
     }
 
