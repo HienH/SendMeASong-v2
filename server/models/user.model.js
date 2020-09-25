@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const SALT_I = 10;
 const jwt = require('jsonwebtoken')
 var AutoIncrement = require('mongoose-sequence')(mongoose);
-
 require('dotenv').config();
 
 const userSchema = mongoose.Schema({
