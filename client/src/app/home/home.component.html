@@ -3,10 +3,16 @@
   <div id="midground"></div>
   <div id="page-wrap">
     <div class="row">
+      <div class="col-3">
+
+      </div>
+      <div class="col-5">
+      </div>
       <div class="col-4">
+        <button (click)="logout()" class="btn btn-outline-dark btn-block">Logout</button>
         <button mdbBtn class="center" type="button" gradient="peach" rounded="true" size="lg" (click)="test.toggle()"
           mdbWavesEffect>Read Me</button>
-        <div class="testing" mdbCollapse #test="bs-collapse">
+        <div class="readMe" mdbCollapse #test="bs-collapse">
           <h3>Welcome to Send Me A Song</h3>
           <p>This automated spotify playlist creator makes it easier for you to find new
             music
@@ -30,11 +36,6 @@
           </div>
         </div>
       </div>
-      <div class="col-5">
-      </div>
-      <div class="col-3">
-        <button (click)="logout()" class="btn btn-outline-dark btn-block">Logout</button>
-      </div>
     </div>
 
     <div class="container tainer colour2">
@@ -44,14 +45,14 @@
           <img class="icon" src="../../assets/icon.png">
           <h1>Send Me A Song</h1>
         </div>
-        <div class="row colour">
+        <!-- <div class="row colour">
           <div class="col-6 faIcon" (click)="openHistory()">
             <i class="fa fa-history fa-4x"></i>
           </div>
           <div class="col-6 faIcon" (click)="openSentPlaylist()">
             <i class=" fa fa-chevron-circle-right fa-4x" aria-hidden="true"></i>
           </div>
-        </div>
+        </div> -->
 
       </div>
 

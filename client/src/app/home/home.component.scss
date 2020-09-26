@@ -290,12 +290,19 @@ li:hover {
   background-color: #0ff;
 }
 
-.colour2 {}
 
-.testing {
+.readMe {
   position: absolute;
   z-index: 700;
-  background-color: orange;
-  margin: 5px;
-  margin-left: 9px;
+  color: white;
+  background-color: black;
+
+  h3 {
+    text-align: center;
+  }
+
+  p {
+    padding: 15px;
+  }
+
 }

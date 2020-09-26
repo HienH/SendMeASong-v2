@@ -7,16 +7,19 @@ var ObjectID = require('mongodb').ObjectID;
 module.exports.refreshSpotify = async (req, res, next) => {
     var formId = req.query["formId"];
     console.log(formId)
+    console.log('tryign to get FOrmId')
     // const userID = new ObjectID(res.locals.userId);
 
     User.findOne({ 'formId': formId }, (err, user) => {
         if (!user) {
-            console.log('yes')
+
             res.json({
                 sucess: false, err: err
             })
         } else {
+
             const stoken = user.getSpotifyToken();
+            const playListId = user.getPlaylistId();
 
             const headers = {
                 'Authorization': 'Basic MTY3ZTBiZGM1MWEyNDFjOWExYzc4MWIwZjhjM2RmN2Y6YWI4MWY4MTA3NDk3NDkwOThlNTExYTU0ZjA2OGIxNTU=',
@@ -35,7 +38,8 @@ module.exports.refreshSpotify = async (req, res, next) => {
             }
             request(accessToken).then((result, err) => {
                 if (!err) {
-                    res.locals.spotifyAccessToken = JSON.parse(result).access_token
+                    res.locals.spotifyAccessToken = JSON.parse(result).access_token;
+                    res.locals.splayListId = playListId;
                     next();
                 }
             })

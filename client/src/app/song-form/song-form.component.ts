@@ -19,7 +19,7 @@ export class SongFormComponent implements OnInit {
     nameField: boolean;
     name: string;
     url: string;
-    formId: number;
+    formId: string;
     username: string;
 
     constructor(private router: Router, private userService: UserService, ) { }
@@ -33,8 +33,10 @@ export class SongFormComponent implements OnInit {
 
     getUserDetails() {
         var splitUrl = this.url.split('/');
+        console.log(splitUrl)
         this.username = splitUrl[splitUrl.length - 2]
-        this.formId = parseInt(splitUrl[splitUrl.length - 1])
+        this.formId = (splitUrl[splitUrl.length - 1])
+        console.log(this.formId)
     }
 
     createForm() {
@@ -65,12 +67,14 @@ export class SongFormComponent implements OnInit {
     sendPlaylist() {
         this.submitted = true;
 
-        this.success = true;
-        console.log(this.songs)
+
+        console.log(this.formId)
         this.userService.addToPlaylist(this.songs, this.formId).subscribe(
             (res) => {
                 console.log(res)
+                this.success = true;
             }, (err) => {
+                this.success = false;
                 console.log(err)
             });
 

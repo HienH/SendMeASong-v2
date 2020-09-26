@@ -55,7 +55,6 @@ module.exports.register = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
-    console.log('inhere')
     // Find email
     User.findOne({ 'email': req.body.email }, (err, user) => {
         if (!user) return res.json({

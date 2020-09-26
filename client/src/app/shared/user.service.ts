@@ -59,6 +59,7 @@ export class UserService {
     // }
 
     addToPlaylist(songs, formId) {
+        console.log(formId);
         return this.http.post(environment.apiBaseUrl + 'spotify/addToPlaylist?formId=' + formId, songs);
     }
 

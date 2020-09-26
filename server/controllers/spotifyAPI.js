@@ -97,17 +97,15 @@ module.exports.createSpotifyPlaylist = (async (req, res) => {
 module.exports.addSong = (async (req, res) => {
 
     const spotifyToken = res.locals.spotifyAccessToken
-    const userId = new ObjectID(res.locals.userId);
-    const user = await User.findById(userId);
-    const playlistId = user.spotifyPlaylistId;
-    const friendPlaylist = req.body;
+    const playlistId = res.locals.splayListId;
+    const friendPlaylistSongs = req.body;
 
     const headers = {
         'Authorization': 'Bearer ' + spotifyToken,
         'Accept': 'application/json',
     };
 
-    const result = await friendPlaylist.map(async (song) => {
+    const result = await friendPlaylistSongs.map(async (song) => {
         const songName = song.song
         const trackId = await getSongId(songName, song.artist)
         const jsonObj = JSON.parse(trackId)
@@ -122,11 +120,9 @@ module.exports.addSong = (async (req, res) => {
             console.log(error)
         }
         playlistAdd(songIds).then(
-            saveToSongHistory().then(
-                res.status(200).json({
-                    sucess: "truexx"
-                })
-            ).catch(err => {
+            res.status(200).json({
+                sucess: "truexx"
+            }).catch(err => {
                 console.log(err)
             })
         );
