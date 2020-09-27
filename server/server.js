@@ -15,6 +15,7 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useCreateIndex: 
     .catch(err => console.log(err));
 
 
+
 //bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,6 +27,12 @@ app.use(cookieParser());
 const userRouter = require('./routes/user.router');
 const songRouter = require('./routes/song.router');
 const spotifyRouter = require('./routes/spotify.route');
+
+app.use(express.static(__dirname + '/dist'));
+
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname + '/dist/index.html'));
+});
 
 app.use('/user', userRouter);
 app.use('/song', songRouter);
