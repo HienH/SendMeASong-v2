@@ -36,14 +36,13 @@ export class HomeComponent implements OnInit {
                 this.user = res['user']['username']
                 this.formId = res['user']['formId']
                 this.hasCreatedPlaylist = res['user']['spotifyPlaylistId'] ? true : false;
-                console.log(this.hasCreatedPlaylist)
+
             },
             (err) => {
                 if (err.status === 500 && err.name == 'HttpErrorResponse') {
                     this.router.navigate(['/login']);
                 } else {
                     console.log(err);
-
                 }
             })
         this.createForm();
