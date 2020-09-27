@@ -14,11 +14,6 @@ module.exports.getUser = (req, res) => {
         .catch(err => res.status(400).json('Error:' + err));
 };
 
-// module.exports.getFriendPlaylist = (req, res) => {
-//     const playlist = new ObjectID(res.locals.userId);
-//     User.findById(playlist)
-// }
-
 module.exports.register = (req, res) => {
     const newUser = new User();
     newUser.email = req.body.email;
