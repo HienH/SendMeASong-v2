@@ -95,6 +95,7 @@ export class HomeComponent implements OnInit {
     }
 
     logout() {
+        console.log('logging out')
         this.userService.logoutUser().subscribe(
             (res) => {
                 if (res['success']) {

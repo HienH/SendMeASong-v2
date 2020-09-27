@@ -10,6 +10,7 @@ import { SongFormComponent } from './song-form/song-form.component';
 
 const routes: Routes = [
     { path: 'register', component: RegisterComponent },
+    { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
     { path: 'user/:username', component: PlaylistComponent },
     { path: 'songForm', component: SongFormComponent },

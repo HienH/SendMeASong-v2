@@ -18,17 +18,11 @@
           </p>
           <div>
             1)
-            <button type="button" mdbBtn [disabled]="checkSpotifyConnection()" class="btn btn-info"
-              [mdbTooltip]="popTemplate" (click)="openSpotifyUrl()">Connect to
+            <button type="button" [disabled]="checkSpotifyConnection()" class="btn btn-info"
+              (click)="openSpotifyUrl()">Connect to
               spotify</button>
-            <ng-template #popTemplate>Already connected to spotify!</ng-template>
-            <!-- <a
-              href="https://accounts.spotify.com/authorize?client_id=167e0bdc51a241c9a1c781b0f8c3df7f&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome&scope=user-read-private%20playlist-modify-public%20playlist-modify-private%20playlist-read-private%20user-read-email&state=34fFs29kd09">
-              Connect to spotify</a> -->
           </div>
-          <!-- <div *ngIf="!hasCreatedPlaylist">
-            2) <button (click)="createSMASplaylist()" class="btn btn-success">Create SMAS Playlist</button>
-          </div> -->
+
           <div>
             2) <button (click)="genForm()" class="btn btn-warning">Send Generated form</button>
           </div>
