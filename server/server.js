@@ -19,7 +19,7 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useCreateIndex: 
 //bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors({ origin: 'http://localhost:4200' }));
+// app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(cookieParser());
 
 
