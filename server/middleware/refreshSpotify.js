@@ -6,9 +6,6 @@ var ObjectID = require('mongodb').ObjectID;
 
 module.exports.refreshSpotify = async (req, res, next) => {
     var formId = req.query["formId"];
-    console.log(formId)
-    console.log('tryign to get FOrmId')
-    // const userID = new ObjectID(res.locals.userId);
 
     User.findOne({ 'formId': formId }, (err, user) => {
         if (!user) {

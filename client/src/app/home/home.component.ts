@@ -4,8 +4,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { PlaylistComponent } from '../playlist/playlist.component';
-import { HistoryComponent } from './history/history.component';
-import { SentPlaylistComponent } from './sent-playlist/sent-playlist.component';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -16,23 +14,19 @@ import { environment } from '../../environments/environment';
 export class HomeComponent implements OnInit {
     @ViewChild('alert', { static: false }) alert: ElementRef;
     @ViewChild('x', { static: false }) x: ElementRef;
-    friendsPlaylist = []
-    historyPlaylist = [];
+
     songForm: FormGroup;
     submitted: boolean;
     success: boolean;
     user: string;
-    delSuccess: boolean;
-    delMessage: string;
-    connectWithSpotify: boolean;
-    code: string;
-    connectedToSpotify: boolean;
     formId: number
     isCollapsed = false;
+    hasCreatedPlaylist: boolean;
 
     constructor(private userService: UserService, private router: Router, private dialog: MatDialog) { }
 
     ngOnInit() {
+        this.checkSpotifyConnection();
         this.submitted = false;
         this.success = false;
         this.userService.getUser().subscribe(
@@ -40,9 +34,9 @@ export class HomeComponent implements OnInit {
             (res) => {
                 console.log(res)
                 this.user = res['user']['username']
-                this.friendsPlaylist = res['user']['friendSongs'];
-                this.historyPlaylist = res['user']['playlistHistory']
                 this.formId = res['user']['formId']
+                this.hasCreatedPlaylist = res['user']['spotifyPlaylistId'] ? true : false;
+                console.log(this.hasCreatedPlaylist)
             },
             (err) => {
                 if (err.status === 500 && err.name == 'HttpErrorResponse') {
@@ -63,22 +57,6 @@ export class HomeComponent implements OnInit {
         })
     }
 
-    deleteSong(song) {
-        this.delSuccess = false;
-        this.userService.deleteSong(song).subscribe(
-            (res) => {
-                this.delSuccess = true;
-                this.delMessage = res['message']
-                setTimeout(() => {
-                    this.alert.nativeElement.classList.remove('show');
-                    this.delMessage = '';
-                }, 2000)
-            },
-            (err) => {
-                console.log(err);
-            }
-        )
-    }
 
     edit() {
         let xButton = Array.from(document.getElementsByClassName('deleteButton') as HTMLCollectionOf<HTMLElement>)
@@ -130,19 +108,18 @@ export class HomeComponent implements OnInit {
         )
     }
 
-    createSpotify() {
+    createSMASplaylist() {
         let url = window.location.href;
-        console.log(url)
         let urlSplit = url.indexOf('=');
         let code = url.slice(urlSplit + 1);
-        console.log(code)
         this.getSpotifyToken(code);
     }
 
     getSpotifyToken(code) {
         this.userService.createPlaylist(code).subscribe(
             (res) => {
-                console.log(res);
+                location.reload();
+
             },
             (err) => {
                 console.log(err);
@@ -174,23 +151,18 @@ export class HomeComponent implements OnInit {
         window.open(url, '_blank');
     }
 
-    spotifyAcceptance() {
-        this.connectedToSpotify = true;
+
+    openSpotifyUrl() {
+        window.location.href = 'https://accounts.spotify.com/authorize?client_id=167e0bdc51a241c9a1c781b0f8c3df7f&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome&scope=user-read-private%20playlist-modify-public%20playlist-modify-private%20playlist-read-private%20user-read-email&state=34fFs29kd09';
     }
 
-    openHistory() {
-        const config = {
-            data: this.historyPlaylist,
-            width: '600px',
-        };
-        this.dialog.open(HistoryComponent, config)
-    }
-
-    openSentPlaylist() {
-        const config = {
-            data: this.friendsPlaylist,
-            width: '600px',
-        };
-        this.dialog.open(SentPlaylistComponent, config)
+    checkSpotifyConnection() {
+        let url = window.location.href;
+        if (url.includes("code=")) {
+            this.createSMASplaylist()
+            return true;
+        } else {
+            return false;
+        }
     }
 }

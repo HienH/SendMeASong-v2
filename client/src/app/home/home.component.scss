@@ -1,56 +1,3 @@
-// .button {
-//   width: 10px;
-//   height: 20px;
-//   line-height: 20px;
-//   font-size: 10px;
-//   padding: 0 0;
-//   margin: 5px;
-//   min-width: 20px !important;
-//   background-color: #ff726f;
-// }
-
-// .inline {
-//   display: inline !important;
-// }
-
-// .edit {
-//   width: 30px;
-//   height: 30px;
-//   line-height: 20px;
-//   font-size: 12px;
-//   padding: 0 0;
-//   margin: 8px;
-//   min-width: 20px !important;
-//   background-color: #ff726f;
-// }
-
-
-// .container {
-//   width: 1000px;
-//   height: 800px;
-//   position: absolute;
-//   top: 0;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-//   text-align: center;
-
-//   margin: auto;
-// }
-
-// body {
-//   position: relative;
-//   background: url(../../assets/stary.jpg) no-repeat center fixed;
-//   background-size: cover;
-
-// }
-
-// .name {
-//   text-align: center;
-//   font-size: 90px;
-//   padding: 20px
-// }
-
 .logoName {
   font-family: 'Pacifico', cursive;
   font-size: 90px;
@@ -82,15 +29,6 @@
   height: 850px;
   background-position: center;
   width: 570px;
-}
-
-.backgroundNote {
-  //   background-image: url("../../assets/note3.png");
-  //   background-size: 780px;
-  //   background-repeat: no-repeat;
-  //   //   background-color: orange;
-  //   padding-top: 40px;
-  //   background-position: center
 }
 
 .colour {
@@ -296,13 +234,18 @@ li:hover {
   z-index: 700;
   color: white;
   background-color: black;
+  margin-left: 10px;
+  padding: 0 10px;
 
   h3 {
+    padding-top: 15px;
     text-align: center;
+    font-size: 38px;
+    font-family: "Sacramento", Times, serif;
   }
 
   p {
-    padding: 15px;
+    padding: 6px;
   }
 
 }

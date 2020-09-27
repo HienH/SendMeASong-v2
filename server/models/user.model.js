@@ -79,6 +79,7 @@ userSchema.methods.getSpotifyToken = function () {
 userSchema.methods.getPlaylistId = function () {
     return this.spotifyPlaylistId
 };
+
 userSchema.methods.generateToken = function (cb) {
     let user = this;
     let token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {

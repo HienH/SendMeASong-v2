@@ -33,10 +33,8 @@ export class SongFormComponent implements OnInit {
 
     getUserDetails() {
         var splitUrl = this.url.split('/');
-        console.log(splitUrl)
         this.username = splitUrl[splitUrl.length - 2]
         this.formId = (splitUrl[splitUrl.length - 1])
-        console.log(this.formId)
     }
 
     createForm() {
@@ -71,7 +69,6 @@ export class SongFormComponent implements OnInit {
         console.log(this.formId)
         this.userService.addToPlaylist(this.songs, this.formId).subscribe(
             (res) => {
-                console.log(res)
                 this.success = true;
             }, (err) => {
                 this.success = false;
