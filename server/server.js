@@ -28,8 +28,15 @@ const userRouter = require('./routes/user.router');
 const songRouter = require('./routes/song.router');
 const spotifyRouter = require('./routes/spotify.route');
 
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static(__dirname + '/dist/smas'));
 
+
+app.get('/*', function (req, res) {
+
+    res.sendFile(path.join(__dirname +
+        '/dist/smas/index.html'));
+});
+app.listen(process.env.PORT || 8080);
 
 
 app.use('/user', userRouter);
