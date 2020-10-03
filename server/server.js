@@ -19,7 +19,7 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useCreateIndex: 
 //bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(cors({ origin: 'http://localhost:4200' }));
+app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(cookieParser());
 
 
@@ -31,12 +31,12 @@ const spotifyRouter = require('./routes/spotify.route');
 app.use(express.static(__dirname + '/dist/smas'));
 
 
-app.get('/*', function (req, res) {
+// app.get('/*', function (req, res) {
 
-    res.sendFile(path.join(__dirname +
-        '/dist/smas/index.html'));
-});
-app.listen(process.env.PORT || 8080);
+//     res.sendFile(path.join(__dirname +
+//         '/dist/smas/index.html'));
+// });
+// app.listen(process.env.PORT || 8080);
 
 
 app.use('/user', userRouter);
